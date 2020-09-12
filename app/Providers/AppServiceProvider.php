@@ -14,6 +14,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->isLocal()) {
+            $this->app->register(\Protoqol\Prequel\PrequelServiceProvider::class);
+            $this->app->register(\Recca0120\Terminal\TerminalServiceProvider::class);
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
