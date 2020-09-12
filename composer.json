@@ -13,7 +13,8 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "spatie/laravel-permission": "^3.16"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
@@ -79,7 +80,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ],
         "notify": [
-            "node -e \\\"require('node-notifier').notify({title: 'The cake was a lie!', message: 'I am cross-platform notification', icon: path.join(__dirname, 'resources/img/success.jpg'), sound: true})\\\""
+            "node -e \"require('node-notifier').notify({title: 'The cake was a lie!', message: 'I am cross-platform notification', icon: path.join(__dirname, 'resources/img/success.jpg'), sound: true})\""
         ],
         "reset:composer": [
             "rm -rf vendor/*/"
