@@ -4368,16 +4368,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.1.5",
+            "version": "v5.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "b43a3905262bcf97b2510f0621f859ca4f5287be"
+                "reference": "c976c115a0d788808f7e71834c8eb0844f678d02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/b43a3905262bcf97b2510f0621f859ca4f5287be",
-                "reference": "b43a3905262bcf97b2510f0621f859ca4f5287be",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c976c115a0d788808f7e71834c8eb0844f678d02",
+                "reference": "c976c115a0d788808f7e71834c8eb0844f678d02",
                 "shasum": ""
             },
             "require": {
@@ -4454,7 +4454,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-17T07:42:30+00:00"
+            "time": "2020-09-18T14:27:32+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -6237,16 +6237,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v4.0.1",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "4bd0a8b01b889c7704cd0a1d04a849c8da993f43"
+                "reference": "84b28408d14df48bf41618c843ebf23bed3b940d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/4bd0a8b01b889c7704cd0a1d04a849c8da993f43",
-                "reference": "4bd0a8b01b889c7704cd0a1d04a849c8da993f43",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/84b28408d14df48bf41618c843ebf23bed3b940d",
+                "reference": "84b28408d14df48bf41618c843ebf23bed3b940d",
                 "shasum": ""
             },
             "require": {
@@ -6292,7 +6292,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2020-09-22T16:49:01+00:00"
+            "time": "2020-10-06T16:19:53+00:00"
         },
         {
             "name": "league/container",
@@ -6852,7 +6852,7 @@
                 "MIT"
             ],
             "description": "PHP CodeSniffer Object Calisthenics rules/sniffs",
-            "abandoned": "https://github.com/symplify/coding-standard",
+            "abandoned": "symplify/coding-standard",
             "time": "2020-09-08T10:18:44+00:00"
         },
         {
