@@ -25,5 +25,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::resource('permissions',\App\Http\Controllers\PermissionController::class);
     Route::resource('roles',\App\Http\Controllers\RoleController::class);
 });
-
-
