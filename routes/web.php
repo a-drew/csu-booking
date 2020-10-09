@@ -21,6 +21,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/permissions', [
+Route::middleware(['auth:sanctum', 'verified'])->get('/permissions', [
     \App\Http\Controllers\PermissionController::class, 'index'
 ]);
