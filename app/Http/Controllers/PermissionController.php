@@ -11,12 +11,11 @@ class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Inertia\Response
      */
     public function index()
     {
-        //if (auth()->user()->can('users.select')) {
-        return Inertia::render('Admin/Permissions/Index', [
+        return inertia('Admin/Permissions/Index', [
             'permissions' => Permission::all(),
         ]);
     }
@@ -24,29 +23,35 @@ class PermissionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Inertia\Response
      */
     public function create()
     {
-        //
+        return inertia('Admin/Permissions/Index');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Inertia\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validateWithBag('createPermission', [
+            'name' => 'required|string|max:255',
+        ]);
+
+        $permission = Permission::create(['name' => $request->name]);
+
+        return $this->index()->with('flash', ['new' => $permission]);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  Permission  $permission
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Inertia\Response
      */
     public function show(Permission $permission)
     {
@@ -84,6 +89,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+
+        return back()->with('flash', collect('permission'));
     }
 }
