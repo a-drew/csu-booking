@@ -1,0 +1,81 @@
+<template>
+
+    <!-- Generate Role -->
+    <jet-form-section @submitted="createRole">
+        <template #title>
+            Create Role
+        </template>
+
+        <template #description>
+            Roles are used across the application to authorize users when performing actions or viewing sensitive information.
+        </template>
+
+        <template #form>
+            <!-- Role Name -->
+            <div class="col-span-6 sm:col-span-4">
+                <jet-label for="name" value="Name"/>
+                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autofocus/>
+                <jet-input-error :message="form.error('name')" class="mt-2"/>
+            </div>
+        </template>
+
+        <template #actions>
+            <jet-action-message :on="form.recentlySuccessful" class="mr-3">
+                Created
+            </jet-action-message>
+
+            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Create
+            </jet-button>
+        </template>
+    </jet-form-section>
+</template>
+
+<script>
+    import JetActionMessage from './../../../Jetstream/ActionMessage'
+    import JetFormSection from './../../../Jetstream/FormSection'
+    import JetButton from './../../../Jetstream/Button'
+    import JetLabel from './../../../Jetstream/Label'
+    import JetInput from './../../../Jetstream/Input'
+    import JetInputError from './../../../Jetstream/InputError'
+
+    export default {
+        components: {
+            JetActionMessage,
+            JetFormSection,
+            JetButton,
+            JetLabel,
+            JetInput,
+            JetInputError,
+        },
+
+        data() {
+            return {
+
+                form: this.$inertia.form({
+                    name: '',
+                }, {
+                    bag: 'createRole',
+                    resetOnSuccess: true,
+                })
+            }
+
+        },
+
+        methods: {
+            createRole() {
+                this.form.post('/roles', {
+                    preserveScroll: true,
+                }).then(response => {
+                    if (!this.form.hasErrors()) {
+                        this.display = true
+                    }
+                })
+            },
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
