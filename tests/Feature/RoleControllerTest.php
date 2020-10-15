@@ -19,7 +19,7 @@ class RoleControllerTest extends TestCase
         $role = Role::factory()->create();
         $user = User::factory()->make();
 
-        $this->assertDatabaseHas('roles', $role->toArray());
+        $this->assertDatabaseHas('roles', ['name' => $role->name]);
 
         $response = $this->actingAs($user)->get('/roles');
 
@@ -35,7 +35,7 @@ class RoleControllerTest extends TestCase
         $role = Role::factory()->create();
         $user = User::factory()->make();
 
-        $this->assertDatabaseHas('roles', $role->toArray());
+        $this->assertDatabaseHas('roles', ['name' => $role->name]);
 
         $response = $this->actingAs($user)->get('/roles/create');
 
@@ -52,12 +52,12 @@ class RoleControllerTest extends TestCase
         $role = Role::factory()->make();
         $user = User::factory()->make();
 
-        $this->assertDatabaseMissing('roles', $role->toArray());
+        $this->assertDatabaseMissing('roles', ['name' => $role->name]);
 
         $response = $this->actingAs($user)->post('/roles', ['name' => $role->name]);
 
         $response->assertOk();
-        $this->assertDatabaseHas('roles', $role->toArray());
+        $this->assertDatabaseHas('roles', ['name' => $role->name]);
     }
 
     /**
@@ -68,11 +68,11 @@ class RoleControllerTest extends TestCase
         $role = Role::factory()->create();
         $user = User::factory()->make();
 
-        $this->assertDatabaseHas('roles', $role->toArray());
+        $this->assertDatabaseHas('roles', ['name' => $role->name]);
 
         $response = $this->actingAs($user)->delete('/roles/' . $role->id);
 
         $response->assertStatus(302);
-        $this->assertDatabaseMissing('roles', $role->toArray());
+        $this->assertDatabaseMissing('roles', ['name' => $role->name]);
     }
 }
