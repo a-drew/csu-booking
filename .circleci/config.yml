@@ -68,7 +68,7 @@ jobs:
       - run:
           name: "Create Environment file"
           command: |
-            mv .env.example .env
+            mv .env.ci .env
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -96,7 +96,14 @@ jobs:
 
       - run:
           name: "Run Tests"
-          command: php artisan test && npm run test
+          command: php artisan test && npm run test-ci
+
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: reports
+      - store_artifacts:
+          path: storage/logs/laravel.log
 
       - sonarcloud/scan
 
