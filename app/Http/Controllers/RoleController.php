@@ -41,7 +41,7 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create(['name' => $request->name, 'guard_name' => 'web']);
 
         return $this->index()->with('flash', ['new' => $role]);
     }
