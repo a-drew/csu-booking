@@ -53,7 +53,8 @@
         "transform": {
             ".*\\.(vue)$": "vue-jest",
             ".*\\.(js)$": "babel-jest"
-        }
+        },
+        "roots": ["<rootDir>/resources/js", "<rootDir>/tests/Javascript"]
     },
     "babel": {
         "presets": [

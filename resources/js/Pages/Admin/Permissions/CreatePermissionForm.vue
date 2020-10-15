@@ -49,9 +49,12 @@
             JetInputError,
         },
 
+        props: {
+          display: Boolean,
+        },
+
         data() {
             return {
-
                 form: this.$inertia.form({
                     name: '',
                 }, {
@@ -68,10 +71,10 @@
                     preserveScroll: true,
                 }).then(response => {
                     if (!this.form.hasErrors()) {
-                        this.display = true
+                        this.data = true
                     }
                 })
-            },
+            }
         }
     }
 </script>
