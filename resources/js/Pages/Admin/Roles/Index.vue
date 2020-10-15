@@ -27,8 +27,13 @@
                         <template #content>
                             <div class="space-y-6">
                                 <div v-for="role in roles" class="flex items-center justify-between">
-                                    <div>
-                                        {{ role.name }}
+                                    <div class="flex items-center">
+                                        <div class="text-md mr-3">
+                                            {{ role.name }}
+                                        </div>
+                                        <div class="text-sm text-gray-400">
+                                            {{ role.guard_name }}
+                                        </div>
                                     </div>
 
                                     <div class="flex items-center">

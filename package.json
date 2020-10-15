@@ -1,6 +1,8 @@
 {
     "private": true,
     "scripts": {
+        "reset": "rm -rf package-lock.json && npm install",
+        "reset-full": "rm -rf node_modules/* && npm run reset",
         "dev": "npm run development",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "npm run development -- --watch",
@@ -11,8 +13,8 @@
         "test": "jest"
     },
     "devDependencies": {
-        "@babel/core": "^7.11.6",
-        "@babel/preset-env": "^7.11.5",
+        "@babel/core": "^7.12.0",
+        "@babel/preset-env": "^7.12.0",
         "@inertiajs/inertia": "^0.1.7",
         "@inertiajs/inertia-vue": "^0.1.2",
         "@jest/globals": "^26.5.3",
@@ -24,16 +26,16 @@
         "cross-env": "^7.0",
         "jest": "^26.5.3",
         "jest-sonar-reporter": "^2.0.0",
-        "laravel-jetstream": "^0.2.1",
+        "laravel-jetstream": "^1.0.0",
         "laravel-mix": "^5.0.7",
         "lodash": "^4.17.19",
         "portal-vue": "^2.1.7",
         "postcss-import": "^12.0.1",
         "resolve-url-loader": "^3.1.0",
-        "tailwindcss": "^1.8.12",
-        "vue": "^2.5.17",
+        "tailwindcss": "^1.9.2",
+        "vue": "^2.6.12",
         "vue-jest": "^3.0.7",
-        "vue-template-compiler": "^2.6.10"
+        "vue-template-compiler": "^2.6.12"
     },
     "jest": {
         "collectCoverage": true,
@@ -54,7 +56,10 @@
             ".*\\.(vue)$": "vue-jest",
             ".*\\.(js)$": "babel-jest"
         },
-        "roots": ["<rootDir>/resources/js", "<rootDir>/tests/Javascript"]
+        "roots": [
+            "<rootDir>/resources/js",
+            "<rootDir>/tests/Javascript"
+        ]
     },
     "babel": {
         "presets": [
