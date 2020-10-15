@@ -91,6 +91,10 @@ jobs:
             - ./vendor
 
       - run:
+          name: "Build Frontend Assets"
+          command: npm run prod
+
+      - run:
           name: "Generate App key"
           command: php artisan key:generate
 
@@ -106,10 +110,6 @@ jobs:
           path: storage/logs/laravel.log
 
       - sonarcloud/scan
-
-      - run:
-          name: "Build Frontend Assets"
-          command: npm run prod
 
       - persist_to_workspace:
           root: .
