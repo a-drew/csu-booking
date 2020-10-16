@@ -3,7 +3,8 @@ import {jest} from "@jest/globals";
 export const InertiaFormMock = {
     hasErrors: jest.fn(),
     error: jest.fn(),
-    post: jest.fn()
+    post: jest.fn(),
+    delete: jest.fn()
 }
 
 export const InertiaForm = {

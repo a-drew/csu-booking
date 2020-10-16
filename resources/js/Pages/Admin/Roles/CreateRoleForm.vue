@@ -67,9 +67,7 @@
                 this.form.post('/roles', {
                     preserveScroll: true,
                 }).then(response => {
-                    if (!this.form.hasErrors()) {
-                        this.display = true
-                    }
+                    //Handle response
                 })
             },
         }
