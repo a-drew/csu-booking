@@ -77,13 +77,11 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "@check:env",
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || php artisan telescope:publish --ansi"
+            "@check:env"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@check:env",
-            "[ $COMPOSER_DEV_MODE -eq 0 ] || php artisan telescope:publish --ansi"
+            "@check:env"
         ],
         "notify": [
             "node -e \"require('node-notifier').notify({title: 'The cake was a lie!', message: 'I am cross-platform notification', icon: path.join(__dirname, 'resources/img/success.jpg'), sound: true})\""
@@ -94,6 +92,7 @@
         "reset": [
             "rm -f composer.lock",
             "@composer install",
+            "php artisan telescope:publish --ansi",
             "node -e \"require('node-notifier').notify({title: 'Reset Complete!', message: 'Your local project setup was fully reset', icon: path.join(__dirname, 'resources/img/success.jpg'), sound: true})\""
         ],
         "reset:full": [

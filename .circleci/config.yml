@@ -82,6 +82,10 @@ jobs:
           command: composer install -n --prefer-dist
 
       - run:
+          name: "Generate app key"
+          command: php artisan key:generate --ansi
+
+      - run:
           name: "Install Frontend Dependencies"
           command: npm ci
 
