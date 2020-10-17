@@ -4,6 +4,7 @@ export const InertiaFormMock = {
     hasErrors: jest.fn(),
     error: jest.fn(),
     post: jest.fn(),
+    put: jest.fn(),
     delete: jest.fn()
 }
 
