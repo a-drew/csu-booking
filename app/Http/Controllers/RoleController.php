@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -15,7 +16,8 @@ class RoleController extends Controller
     public function index()
     {
         return inertia('Admin/Roles/Index', [
-            'roles' => Role::all(),
+            'roles' => Role::with('permissions')->get(),
+            'permissions' => Permission::all()
         ]);
     }
 
@@ -33,17 +35,20 @@ class RoleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response|\Inertia\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $request->validateWithBag('createRole', [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:roles',
+            'permissions' => 'array',
         ]);
 
         $role = Role::create(['name' => $request->name, 'guard_name' => 'web']);
 
-        return $this->index()->with('flash', ['new' => $role]);
+        $role->syncPermissions($request->permissions);
+
+        return redirect(route('roles.index'))->with('flash', ['new' => $role]);
     }
 
     /**
@@ -73,23 +78,32 @@ class RoleController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Role  $role
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $request->validateWithBag('updateRole', [
+            'name' => 'required|string|max:255',
+            'permissions' => 'required|array',
+        ]);
+
+        $role->name = $request->name;
+        $role->save();
+        $role->syncPermissions($request->permissions);
+
+        return redirect(route('roles.index'))->with('flash', ['updated' => $role]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  Role  $role
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Role $role)
     {
         $role->delete();
 
-        return back()->with('flash', collect('role'));
+        return redirect(route('roles.index'));
     }
 }

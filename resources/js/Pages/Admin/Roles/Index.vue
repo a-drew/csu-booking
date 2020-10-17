@@ -7,7 +7,7 @@
         </template>
 
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <create-role-form></create-role-form>
+            <create-role-form :availablePermissions="permissions"></create-role-form>
 
             <div v-if="roles.length > 0">
                 <jet-section-border/>
@@ -41,6 +41,11 @@
                                             Created {{ fromNow(role.created_at) }}
                                         </div>
 
+                                        <button class="cursor-pointer ml-6 text-sm text-blue-800 focus:outline-none"
+                                                @click="roleBeingUpdated = role">
+                                            Update
+                                        </button>
+
                                         <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none"
                                                 @click="roleBeingDeleted = role">
                                             Delete
@@ -52,6 +57,11 @@
                     </jet-action-section>
                 </div>
             </div>
+
+            <!-- Assign Permissions to Role Modal -->
+            <update-role-form :permissions="permissions"
+                              :role="roleBeingUpdated"
+                              @close="roleBeingUpdated = null"></update-role-form>
 
             <!-- Delete Role Confirmation Modal -->
             <jet-confirmation-modal :show="roleBeingDeleted" @close="roleBeingDeleted = null">
@@ -84,14 +94,22 @@
     import JetSectionBorder from '@src/Jetstream/SectionBorder'
     import JetActionSection from '@src/Jetstream/ActionSection'
     import JetConfirmationModal from '@src/Jetstream/ConfirmationModal'
-    import JetDangerButton from '@src/Jetstream/DangerButton'
     import JetSecondaryButton from '@src/Jetstream/SecondaryButton'
+    import JetDangerButton from '@src/Jetstream/DangerButton'
+    import JetButton from '@src/Jetstream/Button'
     import CreateRoleForm from "./CreateRoleForm";
+    import UpdateRoleForm from "./UpdateRoleForm";
     import moment from "moment";
 
     export default {
         props: {
             roles: {
+                type: Array,
+                default: function () {
+                    return []
+                },
+            },
+            permissions: {
                 type: Array,
                 default: function () {
                     return []
@@ -103,16 +121,19 @@
             AppLayout,
             JetSectionBorder,
             JetActionSection,
-            JetConfirmationModal,
+            JetButton,
             JetDangerButton,
             JetSecondaryButton,
+            JetConfirmationModal,
             CreateRoleForm,
+            UpdateRoleForm,
         },
 
         data() {
             return {
                 deleteRoleForm: this.$inertia.form(),
                 roleBeingDeleted: null,
+                roleBeingUpdated: null,
             }
         },
 

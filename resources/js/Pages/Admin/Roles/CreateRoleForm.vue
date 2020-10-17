@@ -17,6 +17,21 @@
                 <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autofocus/>
                 <jet-input-error :message="form.error('name')" class="mt-2"/>
             </div>
+
+            <!-- Permissions -->
+            <div class="col-span-6" v-if="availablePermissions.length > 0">
+                <jet-label for="permissions" value="Permissions" />
+
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div v-for="permission in availablePermissions">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox" :value="permission.name" v-model="form.permissions">
+                            <span class="ml-2 text-md text-black">{{ permission.name }}</span>
+                            <span class="ml-2 text-sm text-gray-600">{{ permission.guard_name }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </template>
 
         <template #actions>
@@ -32,12 +47,12 @@
 </template>
 
 <script>
-    import JetActionMessage from '@src/Jetstream/ActionMessage'
-    import JetFormSection from '@src/Jetstream/FormSection'
-    import JetButton from '@src/Jetstream/Button'
-    import JetLabel from '@src/Jetstream/Label'
-    import JetInput from '@src/Jetstream/Input'
-    import JetInputError from '@src/Jetstream/InputError'
+    import JetActionMessage from '@src/Jetstream/ActionMessage';
+    import JetFormSection from '@src/Jetstream/FormSection';
+    import JetButton from '@src/Jetstream/Button';
+    import JetLabel from '@src/Jetstream/Label';
+    import JetInput from '@src/Jetstream/Input';
+    import JetInputError from '@src/Jetstream/InputError';
 
     export default {
         components: {
@@ -49,11 +64,20 @@
             JetInputError,
         },
 
+        props: {
+            availablePermissions: {
+                type: Array,
+                default: () => {
+                    return [];
+                },
+            }
+        },
+
         data() {
             return {
-
                 form: this.$inertia.form({
                     name: '',
+                    permissions: [],
                 }, {
                     bag: 'createRole',
                     resetOnSuccess: true,

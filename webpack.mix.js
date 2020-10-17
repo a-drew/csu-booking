@@ -13,7 +13,8 @@ const mix = require('laravel-mix');
 const config = require('./webpack.config')
 
 mix.webpackConfig(config)
-mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/app.js', 'public/js')
+    .sourceMaps(!mix.inProduction(), 'source-map')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
