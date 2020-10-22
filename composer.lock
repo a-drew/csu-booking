@@ -985,16 +985,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.99",
+            "version": "v1.2.100",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "0ffea34489b258a2709bfe93a9553e1efa5d1904"
+                "reference": "82e1d983e29d9fea6e8e5505110d0278a5285f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/0ffea34489b258a2709bfe93a9553e1efa5d1904",
-                "reference": "0ffea34489b258a2709bfe93a9553e1efa5d1904",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/82e1d983e29d9fea6e8e5505110d0278a5285f36",
+                "reference": "82e1d983e29d9fea6e8e5505110d0278a5285f36",
                 "shasum": ""
             },
             "require": {
@@ -1030,7 +1030,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2020-08-25T21:35:55+00:00"
+            "time": "2020-10-11T18:08:38+00:00"
         },
         {
             "name": "jenssegers/agent",
@@ -1113,16 +1113,16 @@
         },
         {
             "name": "laravel/fortify",
-            "version": "v1.6.1",
+            "version": "v1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/fortify.git",
-                "reference": "287378edfb3c65b01a30c4486e069a5924bff5d9"
+                "reference": "55e4b0fc750d3d2abed4c314105db269043e6cb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/fortify/zipball/287378edfb3c65b01a30c4486e069a5924bff5d9",
-                "reference": "287378edfb3c65b01a30c4486e069a5924bff5d9",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/55e4b0fc750d3d2abed4c314105db269043e6cb7",
+                "reference": "55e4b0fc750d3d2abed4c314105db269043e6cb7",
                 "shasum": ""
             },
             "require": {
@@ -1168,7 +1168,7 @@
                 "auth",
                 "laravel"
             ],
-            "time": "2020-10-05T14:58:24+00:00"
+            "time": "2020-10-20T15:44:56+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1335,16 +1335,16 @@
         },
         {
             "name": "laravel/jetstream",
-            "version": "v1.3.2",
+            "version": "v1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "096d7dd6e4cbbfb67206ce8c03befbdfbec0595e"
+                "reference": "5a1967bb1f0f73620313b9b9431ac122ef20c79c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/096d7dd6e4cbbfb67206ce8c03befbdfbec0595e",
-                "reference": "096d7dd6e4cbbfb67206ce8c03befbdfbec0595e",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/5a1967bb1f0f73620313b9b9431ac122ef20c79c",
+                "reference": "5a1967bb1f0f73620313b9b9431ac122ef20c79c",
                 "shasum": ""
             },
             "require": {
@@ -1393,7 +1393,7 @@
                 "laravel",
                 "tailwind"
             ],
-            "time": "2020-10-05T19:02:42+00:00"
+            "time": "2020-10-21T17:02:54+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -2946,12 +2946,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "04c3a31fe8ea94b42c9e2d1acc93d19782133b00"
+                "reference": "ae789a8a2ad189ce7e8216942cdb9b77319f5eb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/04c3a31fe8ea94b42c9e2d1acc93d19782133b00",
-                "reference": "04c3a31fe8ea94b42c9e2d1acc93d19782133b00",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ae789a8a2ad189ce7e8216942cdb9b77319f5eb8",
+                "reference": "ae789a8a2ad189ce7e8216942cdb9b77319f5eb8",
                 "shasum": ""
             },
             "require": {
@@ -3031,7 +3031,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-18T14:27:32+00:00"
+            "time": "2020-10-07T15:23:00+00:00"
         },
         {
             "name": "symfony/css-selector",
