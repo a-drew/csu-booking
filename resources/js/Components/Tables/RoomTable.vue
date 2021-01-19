@@ -3,10 +3,14 @@
     <div class="table-filter-container">
       <input type="text"
          placeholder="Search Rooms Table"
-         v-model="filter" 
+         v-model="filter"
          />
+        <button
+            class="btn submit-btn"
+            @click="advancedFilters()"
+        >Additional Search</button>
     </div>
-     
+
     <table class="table-auto responsive-spaced">
       <caption></caption>
       <thead>
@@ -50,6 +54,7 @@
 <script>
 
 import CreateBookingRequestModal from "@src/Pages/Admin/BookingRequests/CreateBookingRequestModal";
+import Button from "@src/Jetstream/Button";
 
 export default {
   name: "RoomTable",
@@ -61,6 +66,7 @@ export default {
     },
   },
   components: {
+      Button,
     CreateBookingRequestModal
   },
   data() {
@@ -73,7 +79,7 @@ export default {
         filteredRooms() {
             return this.rooms.filter(room => {
 
-                
+
                 const building = room.building.toLowerCase();
                 const status = room.status.toLowerCase();
                 const type = room.name.toLowerCase();
@@ -82,9 +88,9 @@ export default {
                 const id = room.id.toString();
 
                 const searchTerm = this.filter.toLowerCase();
-  
-                return building.includes(searchTerm) || 
-                        floor.includes(searchTerm) || 
+
+                return building.includes(searchTerm) ||
+                        floor.includes(searchTerm) ||
                         type.includes(searchTerm) ||
                         status.includes(searchTerm) ||
                         number.includes(searchTerm) ||
@@ -93,5 +99,17 @@ export default {
             });
         }
     },
+    methods: {
+        advancedFilters(){
+
+            axios.post('/api/filterRooms', { name: 'dolor'})
+                .then((response)=>{
+
+                    console.log(response)
+                    console.log(this.rooms)
+
+                })
+        }
+    }
 };
 </script>
