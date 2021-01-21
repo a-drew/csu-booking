@@ -6,13 +6,14 @@
             </h2>
         </template>
         <div class="py-12">
-             <RoomTable 
-            :rooms="rooms"
+             <RoomTable
+            :rooms="dataRooms"
+            @filterRoomsJson="filterRoomsJson($event)"
             />
         </div>
         <div v-if="booking_requests.length > 0" class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             <jet-section-border/>
-            <BookingRequestsList 
+            <BookingRequestsList
             :booking_requests="booking_requests"
             :rooms="rooms" 
             />
@@ -50,9 +51,23 @@ export default {
         },
 
     },
+    data() {
+        return {
+            dataRooms: this.rooms
+        }
+    },
     computed: {
         availableRooms: function () {
             return this.rooms.filter(room => room.status == "available");
+        }
+    },
+    methods:{
+        filterRoomsJson(e) {
+            console.log(e)
+            axios.post('/api/filterRooms', { name: 'dolor'})
+                .then((response)=>{
+                    this.dataRooms = response.data;
+                })
         }
     }
 }

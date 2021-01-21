@@ -72,7 +72,8 @@ export default {
   data() {
       return {
           filter: '',
-          roomBeingBooked: null
+          roomBeingBooked: null,
+          jsonFilters: {}
       }
   },
     computed: {
@@ -101,14 +102,10 @@ export default {
     },
     methods: {
         advancedFilters(){
-
-            axios.post('/api/filterRooms', { name: 'dolor'})
-                .then((response)=>{
-
-                    console.log(response)
-                    console.log(this.rooms)
-
-                })
+            const json_filters = {
+                "a_v_permitted": true
+            };
+            this.$emit('filterRoomsJson', json_filters)
         }
     }
 };
