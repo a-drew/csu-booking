@@ -14,7 +14,9 @@ use App\Models\Room;
 |
 */
 Route::post('/filterRooms', function (Request $request) {
-    return Room::where('floor', '>', 5)->get();
+//    dd($request);
+    return Room::where('attributes->a_v_permitted', $request->a_v_permitted)
+                ->get();
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

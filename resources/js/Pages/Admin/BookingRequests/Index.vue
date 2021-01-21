@@ -63,9 +63,9 @@ export default {
     },
     methods:{
         filterRoomsJson(e) {
-            console.log(e)
-            axios.post('/api/filterRooms', { name: 'dolor'})
+            axios.post('/api/filterRooms', e)
                 .then((response)=>{
+
                     this.dataRooms = response.data;
                 })
         }

@@ -103,7 +103,8 @@ export default {
     methods: {
         advancedFilters(){
             const json_filters = {
-                "a_v_permitted": true
+                "a_v_permitted": false,
+                "alcohol": false
             };
             this.$emit('filterRoomsJson', json_filters)
         }
