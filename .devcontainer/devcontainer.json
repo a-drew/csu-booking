@@ -35,7 +35,7 @@
 	],
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
-	"forwardPorts": [8080, 5432, 3000],
+	"forwardPorts": [8080, 5432, 3000, 1025, 8025],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "bash .devcontainer/setup.sh",

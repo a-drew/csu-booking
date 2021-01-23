@@ -44,6 +44,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
             ])->save();
         }
+        $user->notify(new SampleNotification());
     }
 
     /**
