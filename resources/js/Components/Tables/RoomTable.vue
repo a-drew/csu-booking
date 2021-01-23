@@ -7,7 +7,7 @@
          />
         <button
             class="btn submit-btn"
-            @click="advancedFilters()"
+            @click="toggleAdvancedFilters()"
         >Additional Search</button>
     </div>
 
@@ -49,12 +49,199 @@
       :room="roomBeingBooked"
       @close="roomBeingBooked = null"
     ></CreateBookingRequestModal>
+
+      <jet-dialog-modal :show="showFilterModal">
+          <template #title>
+              Filter
+          </template>
+
+          <template #content>
+              <div class="flex">
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Capacity Standing</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              0-5
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              6-14
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              15+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Capacity Sitting</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              0-5
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              6-14
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              15+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Coffee Tables</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              0-2
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              2-5
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              6+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="flex flex-row">
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Tables</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              0-2
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              2-5
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              6+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Chairs</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              0-5
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              6-14
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              15+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Electronics</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Computers
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Television
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Whiteboard
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="flex flex-row">
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Amenities Permitted</h2></div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Food
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Alcohol
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              AV
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Ambient Music
+                          </div>
+                      </div>
+                  </div>
+                  <div class="flex flex-col flex-1 py-2">
+                      <div><h2>Event Type</h2></div>
+                      <div>Sales for Profit</div>
+                      <div>Fundraiser</div>
+                      <div>3</div>
+                  </div>
+              </div>
+
+
+          </template>
+
+          <template #footer>
+              <jet-secondary-button @click.native="toggleAdvancedFilters">
+                  Close
+              </jet-secondary-button>
+          </template>
+      </jet-dialog-modal>
   </div>
 </template>
 <script>
 
 import CreateBookingRequestModal from "@src/Pages/Admin/BookingRequests/CreateBookingRequestModal";
 import Button from "@src/Jetstream/Button";
+import JetDialogModal from "@src/Jetstream/DialogModal";
+import JetSecondaryButton from "@src/Jetstream/SecondaryButton";
+import Label from "@src/Jetstream/Label";
 
 export default {
   name: "RoomTable",
@@ -67,13 +254,17 @@ export default {
   },
   components: {
       Button,
-    CreateBookingRequestModal
+      CreateBookingRequestModal,
+      JetDialogModal,
+      JetSecondaryButton,
+      Label
   },
   data() {
       return {
           filter: '',
           roomBeingBooked: null,
-          jsonFilters: {}
+          jsonFilters: {},
+          showFilterModal: false
       }
   },
     computed: {
@@ -107,6 +298,9 @@ export default {
                 "alcohol": false
             };
             this.$emit('filterRoomsJson', json_filters)
+        },
+        toggleAdvancedFilters(){
+            this.showFilterModal = !this.showFilterModal;
         }
     }
 };
