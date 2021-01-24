@@ -1,4 +1,4 @@
-import {beforeEach, jest, test} from "@jest/globals";
+import {beforeEach, expect, jest, test} from "@jest/globals";
 
 jest.mock('laravel-jetstream')
 
@@ -18,5 +18,18 @@ beforeEach(() => {
 
 test('should mount without crashing', () => {
     const wrapper = shallowMount(Component, {localVue})
+
+    wrapper.vm.focus();
+
+    expect(wrapper.text()).toBeDefined();
 })
 
+
+test('verify computed proxy field', () => {
+    const wrapper = shallowMount(Component, {localVue, propsData: {
+            value: 'abc',
+        }})
+
+    expect(wrapper.vm.value).toBe('abc');
+
+})
