@@ -362,7 +362,6 @@
                             </app-warning>
                         </div>
 
-
                         <!-- Lounge room dependent fillables -->
 
                         <!-- minor children involved -->
@@ -446,13 +445,9 @@
                                 </template>
                             </app-question>
                         </div>
-
-
                     </div>
                 </template>
             </jet-action-section>
-
-            
 
             <!-- Terms & Conditions -->
             <div class="flex items-center justify-end py-3">
