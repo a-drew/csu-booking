@@ -25,7 +25,7 @@
                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div v-for="permission in availablePermissions">
                         <label class="flex items-center">
-                            <input type="checkbox" class="form-checkbox" :value="permission.name" v-model="form.permissions">
+                            <jet-checkbox :value="permission.name" v-model="form.permissions"/>
                             <span class="ml-2 text-md text-black">{{ permission.name }}</span>
                             <span class="ml-2 text-sm text-gray-600">{{ permission.guard_name }}</span>
                         </label>
@@ -49,6 +49,7 @@
 <script>
     import JetActionMessage from '@src/Jetstream/ActionMessage';
     import JetFormSection from '@src/Jetstream/FormSection';
+    import JetCheckbox from '@src/Jetstream/Checkbox';
     import JetButton from '@src/Jetstream/Button';
     import JetLabel from '@src/Jetstream/Label';
     import JetInput from '@src/Jetstream/Input';
@@ -58,6 +59,7 @@
         components: {
             JetActionMessage,
             JetFormSection,
+            JetCheckbox,
             JetButton,
             JetLabel,
             JetInput,
