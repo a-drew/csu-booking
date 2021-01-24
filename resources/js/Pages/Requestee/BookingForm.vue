@@ -362,9 +362,97 @@
                             </app-warning>
                         </div>
 
+
+                        <!-- Lounge room dependent fillables -->
+
+                        <!-- minor children involved -->
+                        <div class="col-span-6" v-if="room.room_type == 'Lounge'">
+                            <app-question>
+                                <template #header>
+                                    <jet-label value="Will there be minor children participating"/>
+                                </template>
+                                <app-warning class="py-2 text-indigo-600">
+                                    <template #icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                        </svg>
+                                    </template>
+                                    Please remember to attach a filled out "Parental Waiver" to the document section.
+                                </app-warning>
+                            </app-question>
+                        </div>
+
+                          <!-- appliances involved -->
+                        <div class="col-span-6" v-if="room.room_type == 'Lounge'">
+                            <app-question>
+                                <template #header>
+                                    <jet-label value="Will there be appliances involved"/>
+                                </template>
+                                <app-warning class="py-2 text-indigo-600">
+                                    <template #icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                        </svg>
+                                    </template>
+                                    If you are not a CSU club please fill out the "Fire Prevention Form" to the document section
+                                </app-warning>
+                            </app-question>
+                        </div>
+
+                        <!-- A/V needed -->
+                        <div class="col-span-6" v-if="room.room_type == 'Lounge'">
+                            <app-question>
+                                <template #header>
+                                    <jet-label value="Is A/V needed"/>
+                                </template>
+                            </app-question>
+                        </div>
+
+                        <!-- A/V needed -->
+                        <div class="col-span-6" v-if="room.room_type == 'Lounge'">
+                            <app-question>
+                                <template #header>
+                                    <jet-label value="Is furniture needed"/>
+                                </template>
+                            </app-question>
+                        </div>
+
+                        <!-- Mezzanine room dependent fillables -->
+
+                         <!-- bake sale -->
+                          <div class="col-span-6" v-if="room.room_type == 'Mezzanine'">
+                            <app-question>
+                                <template #header>
+                                    <jet-label value="Is the reservation for a bake sale?"/>
+                                </template>
+                                <app-warning class="py-2 text-indigo-600">
+                                    <template #icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                        </svg>
+                                    </template>
+                                    Please remember to attach a filled out "Bake Sale Form" to the document section
+                                </app-warning>
+                            </app-question>
+                        </div>
+
+                        <!-- Conference room dependent fillables -->
+
+                         <!-- bake sale -->
+                          <div class="col-span-6" v-if="room.room_type == 'Conference'">
+                            <app-question>
+                                <template #header>
+                                    <jet-label value="Is the reservation for an internal meeting"/>
+                                </template>
+                            </app-question>
+                        </div>
+
+
                     </div>
                 </template>
             </jet-action-section>
+
+            
 
             <!-- Terms & Conditions -->
             <div class="flex items-center justify-end py-3">
