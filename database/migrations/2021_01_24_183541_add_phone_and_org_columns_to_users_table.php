@@ -14,8 +14,8 @@ class AddPhoneAndOrgColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('phone');
-            $table->string('organization');
+            $table->string('phone')->default('');
+            $table->string('organization')->default('');
         });
     }
 
