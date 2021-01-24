@@ -17,13 +17,15 @@ beforeEach(() => {
 });
 
 test('should mount without crashing', () => {
-    const wrapper = shallowMount(Component, {localVue})
+    const wrapper = shallowMount(Component, {localVue});
+
+    expect(wrapper.text()).toBeDefined();
 })
 
-
 test('verify computed proxy field', () => {
-    const wrapper = shallowMount(Component, {localVue})
+    const wrapper = shallowMount(Component, {localVue});
 
+    wrapper.setProps({value: true});
     wrapper.vm.proxyChecked = !wrapper.vm.proxyChecked;
 
     wrapper.vm.$nextTick(() => {
