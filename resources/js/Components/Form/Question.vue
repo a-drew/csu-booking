@@ -50,7 +50,7 @@ export default {
     },
 
     mounted() {
-        this.actualChecked = this.checked ?? false;
+        this.actualChecked = this.checked;
     },
 
     computed: {

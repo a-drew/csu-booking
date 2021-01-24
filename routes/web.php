@@ -38,10 +38,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('settings/app_logo', SettingsController::class.'@storeAppLogo')->name('app.logo.change');
     Route::post('settings/app_name', SettingsController::class.'@storeAppName')->name('app.name.change');
 
-    Route::resource('bookings',\App\Http\Controllers\BookingRequestController::class)->only(['store', 'index', 'update', 'destroy']);
+    Route::resource('bookings',\App\Http\Controllers\BookingRequestController::class);
     Route::get('bookings/download/{folder}', \App\Http\Controllers\BookingRequestController::class.'@downloadReferenceFiles');
     Route::resource('reservation',\App\Http\Controllers\ReservationsController::class);
-
 
 
     if (env('APP_ENV') == 'local' || env('APP_ENV') == 'testing') {

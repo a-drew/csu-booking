@@ -8,6 +8,7 @@ use App\Models\Reservation;
 use App\Models\Room;
 use App\Events\BookingRequestUpdated;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -33,12 +34,17 @@ class BookingRequestController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    // public function create()
-    // {
-    //     //
-    // }
+    public function create()
+    {
+        return inertia('Requestee/BookingForm', [
+            'room' => Room::get()->random(),
+            'period' => CarbonPeriod::create('2020-01-23 12:00','1 hour', '2020-01-23 14:00'),
+            'start' => now(),
+            'end' => now()->addHours(2),
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -48,6 +54,8 @@ class BookingRequestController extends Controller
      */
     public function store(Request $request)
     {
+        dump($request->toArray());
+
         $request->validateWithBag('createBookingRequest', [
             'room_id' => ['required', 'integer'],
             'start_time' => ['required', 'date'],
