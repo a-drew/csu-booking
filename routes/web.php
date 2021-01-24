@@ -3,6 +3,7 @@
 use App\Http\Controllers\RestrictionsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Notifications\SampleNotification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::get('/dashboard', function () {
         return Inertia\Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // Development route for easy email template editing of notifications (can also be a mailable).
+    Route::get('/email', function () {
+        return (new SampleNotification())->toMail(null);
+    })->name('email');
 
     Route::resource('users', UserController::class)->only(['store', 'index', 'destroy', 'update']);
 
