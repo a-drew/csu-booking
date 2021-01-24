@@ -24,6 +24,9 @@ export default {
         focus() {
             this.$refs.input.focus()
         },
+        select() {
+            this.$refs.input.select()
+        },
     },
 }
 </script>
