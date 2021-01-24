@@ -1,4 +1,4 @@
-import {beforeEach, jest, test} from "@jest/globals";
+import {beforeEach, expect, jest, test} from "@jest/globals";
 
 jest.mock('laravel-jetstream')
 
