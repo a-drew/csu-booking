@@ -43,10 +43,9 @@ class ReservationsController extends Controller
     $this->reservationValidate($request, 'store');
 
 //    //lazy for now
-    $booking = BookingRequest::create([
+    $booking = BookingRequest::factory()->create([
       'user_id' => $request->user()->id,
       'status' => "review",
-      'reference' => ["path" => '']//not sure what to do here tbh
     ]);
 
     foreach ($request->recurrences as $pair){

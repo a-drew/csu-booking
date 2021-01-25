@@ -38,7 +38,7 @@ class BookingRequestFactory extends Factory
                 'phone' => $this->faker->phoneNumber,
                 'email' => $this->faker->email,
             ],
-            'notes' => $this->faker->paragraphs,
+            'notes' => $this->faker->paragraphs(3, true),
         ];
     }
 }
