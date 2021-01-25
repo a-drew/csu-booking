@@ -216,9 +216,10 @@ class RoomController extends Controller
     {
       // None of the request fields are mandatory, only
       // filter the ones provided from request
-      $validation = $request->validate([
-        'capacity_standing' => 'numeric|min:0|not_in:0',
-        'capacity_sitting' => 'numeric|min:0|not_in:0',
+      $numeric_filter = 'numeric|min:0|not_in:0';
+      $request->validate([
+        'capacity_standing' => $numeric_filter,
+        'capacity_sitting' => $numeric_filter,
         'food' => ['boolean'],
         'alcohol' => ['boolean'],
         'a_v_permitted' => ['boolean'],
@@ -226,10 +227,10 @@ class RoomController extends Controller
         'television' => ['boolean'],
         'computer' => ['boolean'],
         'whiteboard' => ['boolean'],
-        'sofas' => 'numeric|min:0|not_in:0',
-        'coffee_tables' => 'numeric|min:0|not_in:0',
-        'tables' => 'numeric|min:0|not_in:0',
-        'chairs' => 'numeric|min:0|not_in:0',
+        'sofas' => $numeric_filter,
+        'coffee_tables' => $numeric_filter,
+        'tables' => $numeric_filter,
+        'chairs' => $numeric_filter,
         'ambiant_music' => ['boolean'],
         'sale_for_profit' => ['boolean'],
         'fundraiser' => ['boolean'],
