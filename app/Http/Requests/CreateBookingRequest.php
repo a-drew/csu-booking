@@ -56,6 +56,12 @@ class CreateBookingRequest extends FormRequest
             'event.food.self_catered' => ['required_if:event.food.high_risk,true','boolean'],
             'event.food.caterer' => ['required_if:event.food.self_catered,false','string', 'max:100'],
             'event.alcohol' => ['boolean'],
+            'event.children' => ['boolean'],
+            'event.appliances' => ['boolean'],
+            'event.av' => ['boolean'],
+            'event.furniture' => ['boolean'],
+            'event.bake_sale' => ['boolean'],
+            'event.internal_meeting' => ['boolean'],
 
             'notes' => ['string', 'max:500'],
             'files' => [

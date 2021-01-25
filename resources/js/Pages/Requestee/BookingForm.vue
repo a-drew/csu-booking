@@ -368,7 +368,7 @@
 
                         <!-- minor children involved -->
                         <div class="col-span-6" v-if="room.room_type == 'Lounge'">
-                            <app-question>
+                            <app-question v-model="form.event.children">
                                 <template #header>
                                     <jet-label value="Will there be minor children participating"/>
                                 </template>
@@ -385,7 +385,7 @@
 
                         <!-- appliances involved -->
                         <div class="col-span-6" v-if="room.room_type == 'Lounge'">
-                            <app-question>
+                            <app-question v-model="form.event.appliances">
                                 <template #header>
                                     <jet-label value="Will there be appliances involved"/>
                                 </template>
@@ -402,7 +402,7 @@
 
                         <!-- A/V needed -->
                         <div class="col-span-6" v-if="room.room_type == 'Lounge'">
-                            <app-question>
+                            <app-question v-model="form.event.av">
                                 <template #header>
                                     <jet-label value="Is A/V needed"/>
                                 </template>
@@ -411,7 +411,7 @@
 
                         <!-- furniture -->
                         <div class="col-span-6" v-if="room.room_type == 'Lounge'">
-                            <app-question>
+                            <app-question v-model="form.event.furniture">
                                 <template #header>
                                     <jet-label value="Is furniture needed"/>
                                 </template>
