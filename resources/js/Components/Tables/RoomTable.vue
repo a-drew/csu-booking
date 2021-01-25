@@ -64,7 +64,7 @@
                               type="number"
                               id="capacity_standing"
                               class="form-input w-2/3 h-2/3"
-                              v-model="jsonFilters.capacity_standing"
+                              v-model.number="jsonFilters.capacity_standing"
                           >
                       </div>
                   </div>
@@ -75,7 +75,7 @@
                               type="number"
                               id="capacity_sitting"
                               class="form-input w-2/3 h-2/3"
-                              v-model="jsonFilters.capacity_sitting"
+                              v-model.number="jsonFilters.capacity_sitting"
                           >
                       </div>
                   </div>
@@ -86,7 +86,7 @@
                               type="number"
                               id="coffee_tables"
                               class="form-input w-2/3 h-2/3"
-                              v-model="jsonFilters.coffee_tables"
+                              v-model.number="jsonFilters.coffee_tables"
                           >
                       </div>
                   </div>
@@ -100,7 +100,7 @@
                               type="number"
                               id="tables"
                               class="form-input w-2/3 h-2/3"
-                              v-model="jsonFilters.tables"
+                              v-model.number="jsonFilters.tables"
                           >
                       </div>
                   </div>
@@ -111,7 +111,7 @@
                               type="number"
                               id="chairs"
                               class="form-input w-2/3 h-2/3"
-                              v-model="jsonFilters.chairs"
+                              v-model.number="jsonFilters.chairs"
                           >
                       </div>
                   </div>
@@ -122,7 +122,7 @@
                               type="number"
                               id="sofas"
                               class="form-input w-2/3 h-2/3"
-                              v-model="jsonFilters.sofas"
+                              v-model.number="jsonFilters.sofas"
                           >
                       </div>
                   </div>
@@ -248,12 +248,12 @@ export default {
           filter: '',
           roomBeingBooked: null,
           jsonFilters: {
-              capacity_standing: 0,
-              capacity_sitting: 0,
-              coffee_tables: 0,
-              tables: 0,
-              chairs: 0,
-              sofas: 0,
+              capacity_standing: null,
+              capacity_sitting: null,
+              coffee_tables: null,
+              tables: null,
+              chairs: null,
+              sofas: null,
               computers: false,
               television: false,
               whiteboard: false,

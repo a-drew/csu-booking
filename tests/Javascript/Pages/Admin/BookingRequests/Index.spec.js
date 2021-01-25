@@ -7,7 +7,6 @@ import {InertiaApp} from '@inertiajs/inertia-vue'
 import {InertiaForm} from 'laravel-jetstream'
 import Index from '@src/Pages/Admin/BookingRequests/Index'
 import {InertiaFormMock} from "@test/__mocks__/laravel-jetstream";
-import axios from 'axios'
 
 let localVue
 
@@ -51,23 +50,6 @@ test('should set dataRooms from props', () => {
         floor: 1,
         status: "unavailable"
     }]);
-})
-
-test('available rooms should be empty', () => {
-    const wrapper = shallowMount(Index, {
-        localVue,
-        propsData: {
-            rooms: [{
-                id: 1,
-                name: "name",
-                building: "building",
-                number: "1",
-                floor: 1,
-                status: "unavailable"
-            }]
-        }
-    });
-    expect(wrapper.vm.availableRooms).toStrictEqual([]);
 })
 
 

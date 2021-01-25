@@ -60,11 +60,6 @@ export default {
             dataRooms: []
         }
     },
-    computed: {
-        availableRooms: function () {
-            return this.rooms.filter(room => room.status == "available");
-        }
-    },
     methods:{
         filterRoomsJson(e) {
             axios.post('/api/filterRooms', e)

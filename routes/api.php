@@ -15,10 +15,11 @@ use App\Models\Room;
 */
 Route::post('/filterRooms', function (Request $request) {
 
-
+    // None of the request fields are mandatory, only
+    // filter the ones provided from request
     $validation = $request->validate([
-        'capacity_standing' => ['nullable', 'string', 'max:255'],
-        'capacity_sitting' => ['nullable', 'string', 'max:255'],
+        'capacity_standing' => 'numeric|min:0|not_in:0',
+        'capacity_sitting' => 'numeric|min:0|not_in:0',
         'food' => ['boolean'],
         'alcohol' => ['boolean'],
         'a_v_permitted' => ['boolean'],
@@ -26,21 +27,25 @@ Route::post('/filterRooms', function (Request $request) {
         'television' => ['boolean'],
         'computer' => ['boolean'],
         'whiteboard' => ['boolean'],
-        'sofas' => ['nullable', 'string', 'max:255'],
-        'coffee_tables' => ['nullable', 'string', 'max:255'],
-        'tables' => ['nullable', 'string', 'max:255'],
-        'chairs' => ['nullable', 'string', 'max:255'],
+        'sofas' => 'numeric|min:0|not_in:0',
+        'coffee_tables' => 'numeric|min:0|not_in:0',
+        'tables' => 'numeric|min:0|not_in:0',
+        'chairs' => 'numeric|min:0|not_in:0',
         'ambiant_music' => ['boolean'],
         'sale_for_profit' => ['boolean'],
         'fundraiser' => ['boolean'],
     ]);
 
+    // If param value boolean, filter for boolean and if
+    // numeric filter greater than integer in that column
     $query = Room::query();
     foreach ($request->toArray() as $key => $value){
-        if(is_bool($value)){
-            $query->where('attributes->'.$key, $value);
+        if(is_numeric($value)){
+          $query->where('attributes->' . $key, '>=', $value);
         }else{
-            $query->where('attributes->'.$key, '>=', (int)$value);
+          if(is_bool($value)) {
+            $query->where('attributes->' . $key, $value);
+          }
         }
 
     }

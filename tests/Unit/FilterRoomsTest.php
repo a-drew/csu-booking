@@ -16,9 +16,15 @@ class FilterRoomsTest extends TestCase
      */
     public function test_filter_rooms()
     {
+      $this->withoutExceptionHandling();
         // Create room with boolean attribute as true and make sure it exists
         // and is returned by the filter endpoint
-        $room = Room::factory()->create(['attributes' => ['food'=> true]]);
+        $room = Room::factory()->create([
+          'attributes' => [
+            'food'=> true,
+            'alcohol'=> true,
+            'chairs' => 8
+          ]]);
         $this->assertDatabaseHas('rooms', [
             'id' => $room->id,
         ]);
@@ -29,18 +35,13 @@ class FilterRoomsTest extends TestCase
             ->assertJson([$room->attributesToArray()]);
 
         // Find room with numeric field filter, make sure it is found
-        $room_2 = Room::factory()->create(['attributes' => ['capacity_sitting'=> 10]]);
-        $this->assertDatabaseHas('rooms', [
-            'id' => $room_2->id,
-        ]);
-
-        $response_2 = $this->postJson('/api/filterRooms', ['capacity_sitting' => '7']);
+        $response_2 = $this->postJson('/api/filterRooms', ['chairs' => 4]);
         $response_2
             ->assertStatus(200)
-            ->assertJson([$room_2->attributesToArray()]);
+            ->assertJson([$room->attributesToArray()]);
 
         // Find room with numeric field filter that is out of the range, make sure it is not found
-        $response_3 = $this->postJson('/api/filterRooms', ['capacity_sitting' => '15']);
+        $response_3 = $this->postJson('/api/filterRooms', ['chairs' => 15]);
         $response_3
             ->assertStatus(200)
             ->assertJson([]);
