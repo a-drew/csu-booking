@@ -15,6 +15,9 @@ class BookingRequest extends Model
         'status',
         'reference',
         'log',
+        'event',
+        'notes',
+        'onsite_contact',
     ];
 
     /**
@@ -25,6 +28,8 @@ class BookingRequest extends Model
     protected $casts = [
         'reference' => 'array',
         'log' => 'array',
+        'event' => 'array',
+        'onsite_contact' => 'array',
     ];
 
     /**
