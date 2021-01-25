@@ -24,6 +24,7 @@ module.exports = {
                 'revert',
                 'style',
                 'test',
+                'task',
             ],
         ],
     },
