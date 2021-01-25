@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Availability;
+use App\Http\Requests\CreateBookingRequest;
 use App\Models\BookingRequest;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Events\BookingRequestUpdated;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -39,49 +37,54 @@ class BookingRequestController extends Controller
     public function create()
     {
         return inertia('Requestee/BookingForm', [
+            // example of the expected reservations format
             'room' => Room::get()->random(),
-            'period' => CarbonPeriod::create('2020-01-23 12:00','1 hour', '2020-01-23 14:00'),
-            'start' => now(),
-            'end' => now()->addHours(2),
+            'reservations' => [
+                [
+                    'start' => now(),
+                    'end' => now()->addHours(2),
+                ],
+                [
+                    'start' => now()->addDay(),
+                    'end' => now()->addDay()->addHours(2),
+                ],
+            ]
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateBookingRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBookingRequest $request)
     {
-        dump($request->toArray());
+        $data = $request->validated();
+        // validate room still available at given times
+        $room = Room::findOrFail($data['room_id']);
+        //$room = Room::available()->findOrFail($data['room_id']);
+        //$room->verifyDatetimesAreWithinAvailabilities($data['reservations'][0]['start'], $data['reservations'][0]['end']);
+        //$room->verifyDatesAreWithinRoomRestrictions($data['reservations'][0]['start'], $data['reservations'][0]['end']);
 
-        $request->validateWithBag('createBookingRequest', [
-            'room_id' => ['required', 'integer'],
-            'start_time' => ['required', 'date'],
-            'end_time' => ['required', 'date'],
-        ]);
+        // save the uploaded files
+        $referenceFolder = "{$room->id}_".hash('sha256', now()).'_reference';
 
-        $referenceFolder = NULL;
-
-        if($request->file())
-        {
-            $referenceFolder = $request->room_id.'_'.strtotime($request->start_time).'_reference';
-            
-            foreach($request->reference as $file)
-            {
-                $name = $file->getClientOriginalName();
-                Storage::disk('public')->putFileAs($referenceFolder . '/', $file, $name);
-            }    
+        foreach($data['files'] as $file) {
+            $name = $file->getClientOriginalName();
+            Storage::disk('public')->putFileAs($referenceFolder. '/', $file, $name);
         }
 
-        $room = Room::available()->findOrFail($request->room_id);
-        $room->verifyDatetimesAreWithinAvailabilities($request->get('start_time'), $request->get('end_time'));
-        $room->verifyDatesAreWithinRoomRestrictions($request->get('start_time'), $request->get('end_time'));
+        // store booking in db
         $booking = BookingRequest::create([
             'user_id' => $request->user()->id,
-            'status' => "review",
-            'reference' => ["path" => $referenceFolder]
+            'start_time' => $data['reservations'][0]['start'],
+            'end_time' => $data['reservations'][0]['end'],
+            'status' => 'review',
+            'event' => $data['event'],
+            'onsite_contact' => $data['onsite_contact'] ?? [],
+            'notes' => $data['notes'] ?? '',
+            'reference' => (count($data['files']) > 0) ? ["path" => $referenceFolder] : [],
         ]);
 
         $log = '[' . date("F j, Y, g:i a") . ']' . ' - Created booking request';
@@ -94,7 +97,8 @@ class BookingRequestController extends Controller
             'end_time' => $request->end_time,
         ]);
 
-        return back();
+        return redirect()->route('bookings.index')
+            ->with('flash', ['banner' => 'Your Booking Request was submitted']);
     }
 
     /**
@@ -149,7 +153,7 @@ class BookingRequestController extends Controller
         }
 
         if($request->file())
-        {    
+        {
             $referenceFolder = $request->room_id.'_'.strtotime($request->start_time).'_reference';
 
             if(isset($booking->reference["path"]))
@@ -160,7 +164,7 @@ class BookingRequestController extends Controller
             {
                 $name = $file->getClientOriginalName();
                 Storage::disk('public')->putFileAs($referenceFolder . '/', $file, $name);
-            }  
+            }
             $booking->reference = ['path' => $referenceFolder];
             $booking->save();
 
@@ -191,24 +195,24 @@ class BookingRequestController extends Controller
         return redirect(route('bookings.index'));
     }
 
-    public function downloadReferenceFiles($folder) 
+    public function downloadReferenceFiles($folder)
     {
         $path = Storage::disk('public')->path($folder);
 
         $zip = new ZipArchive;
-   
+
         $fileName = $folder . '.zip';
-   
+
         $zip->open(Storage::disk('public')->path($fileName), ZipArchive::CREATE);
         $files = File::files($path);
-                              
+
         foreach ($files as $file) {
             $relativeNameInZipFile = basename($file);
             $zip->addFile($file, $relativeNameInZipFile);
-        }             
+        }
         $zip->close();
 
         return response()->download(Storage::disk('public')->path($fileName))->deleteFileAfterSend(true);
-        
+
     }
 }

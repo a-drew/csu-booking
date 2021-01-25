@@ -68,7 +68,7 @@
 
                         <!-- Onsite Contact -->
                         <div class="col-span-6">
-                            <app-question>
+                            <app-question v-model="show_onsite_contact_details">
                                 <template #header>
                                     <jet-label value="Onsite Contact is different from Booking Officer?"/>
                                 </template>
@@ -155,9 +155,16 @@
                         <!-- Date -->
                         <div class="col-span-3">
                             <jet-label value="Date"/>
-                            <h3 class="text-lg font-medium text-gray-900 py-2">
-                                {{ start | only_date }}
-                            </h3>
+                            <div class="flex space-x-2 py-2">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    {{ reservation.start | only_date }}
+                                </h3>
+                                <div v-if="isRecurring">
+                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Reservation Info -->
@@ -169,11 +176,11 @@
 
                             <div class="flex items-start justify-center py-2 space-x-5">
                                 <h3 class="text-lg font-medium text-gray-900">
-                                    {{ start | only_time }}
+                                    {{ reservation.start | only_time }}
                                 </h3>
                                 <span class="block font-medium text-sm text-gray-700"> To </span>
                                 <h3 class="text-lg font-medium text-gray-900">
-                                    {{ end | only_time }}
+                                    {{ reservation.end | only_time }}
                                 </h3>
                             </div>
                         </div>
@@ -257,7 +264,7 @@
 
                         <!-- Fee -->
                         <div class="col-span-6">
-                            <app-question>
+                            <app-question v-model="show_fee_details">
                                 <template #header>
                                     <jet-label value="Will there be a registration/admission fee or suggested donation?"/>
                                 </template>
@@ -270,7 +277,7 @@
 
                         <!-- Music -->
                         <div class="col-span-6">
-                            <app-question>
+                            <app-question v-model="show_music_details">
                                 <template #header>
                                     <jet-label value="Will there be music or sound on site?"/>
                                 </template>
@@ -316,12 +323,6 @@
                                             </template>
                                             Please remember to attach a filled out "Food Waiver" to the document section.
                                         </app-warning>
-                                        <!--                                    <div v-if="form.event.self_catered">
-                                                                                <jet-label for="self_catered" value="Please Attach "/>
-                                                                                <jet-input id="self_catered" type="file" class="mt-1 block w-full"
-                                                                                           v-model="form.event.food_waiver" autofocus/>
-                                                                                <jet-input-error :message="form.error('event.food_waiver')" class="mt-2"/>
-                                                                            </div>-->
                                         <div v-else>
                                             <jet-label for="caterer" value="Specify the catering company"/>
                                             <jet-input id="caterer" type="text" class="mt-1 block w-full"
@@ -382,7 +383,7 @@
                             </app-question>
                         </div>
 
-                          <!-- appliances involved -->
+                        <!-- appliances involved -->
                         <div class="col-span-6" v-if="room.room_type == 'Lounge'">
                             <app-question>
                                 <template #header>
@@ -408,7 +409,7 @@
                             </app-question>
                         </div>
 
-                        <!-- A/V needed -->
+                        <!-- furniture -->
                         <div class="col-span-6" v-if="room.room_type == 'Lounge'">
                             <app-question>
                                 <template #header>
@@ -419,9 +420,9 @@
 
                         <!-- Mezzanine room dependent fillables -->
 
-                         <!-- bake sale -->
-                          <div class="col-span-6" v-if="room.room_type == 'Mezzanine'">
-                            <app-question>
+                        <!-- bake sale -->
+                        <div class="col-span-6" v-if="room.room_type == 'Mezzanine'">
+                            <app-question v-model="form.event.bake_sale">
                                 <template #header>
                                     <jet-label value="Is the reservation for a bake sale?"/>
                                 </template>
@@ -438,15 +439,31 @@
 
                         <!-- Conference room dependent fillables -->
 
-                         <!-- bake sale -->
-                          <div class="col-span-6" v-if="room.room_type == 'Conference'">
-                            <app-question>
+                        <!-- internal meeting -->
+                        <div class="col-span-6" v-if="room.room_type == 'Conference'">
+                            <app-question v-model="form.event.internal_meeting">
                                 <template #header>
                                     <jet-label value="Is the reservation for an internal meeting"/>
                                 </template>
                             </app-question>
                         </div>
 
+                        <!-- Upload File Storage -->
+                        <div class="col-span-6">
+                            <jet-label for="files" value="Document Storage"/>
+                            <app-sortable-upload id="files" accept="application/pdf, application/msword"
+                                                 @change="uploadedFiles($event)"/>
+                            <jet-input-error :message="form.error('files')" class="mt-2"/>
+                        </div>
+                        
+                        <!-- Additional Info -->
+                        <div class="col-span-6">
+                            <jet-label for="notes" value="Additional Information (Optional)"/>
+                            <app-textbox id="notes" class="mt-1 block w-full"
+                                         placeholder="Please share any additional relevant information for processing your request"
+                                         v-model="form.notes" autofocus/>
+                            <jet-input-error :message="form.error('notes')" class="mt-2"/>
+                        </div>
 
                     </div>
                 </template>
@@ -475,6 +492,13 @@
                     Submitted.
                 </jet-action-message>
 
+                <app-warning v-if="form.hasErrors()" class="pr-4">
+                    This booking cannot be submitted.
+                    <strong v-if="form.error('availabilities')">
+                        The room is no longer available.
+                    </strong>
+                </app-warning>
+
                 <jet-button :class="{ 'opacity-25': (form.processing || !accept_terms) }" :disabled="form.processing || !accept_terms">
                     Submit
                 </jet-button>
@@ -500,6 +524,7 @@ import AppWarning from '@src/Components/Form/Warning';
 import AppSelect from '@src/Components/Form/Select';
 import AppTextbox from '@src/Components/Form/Textbox';
 import AppQuestion from '@src/Components/Form/Question';
+import AppSortableUpload from '@src/Components/Form/SortableUpload';
 import moment from "moment";
 
 export default {
@@ -509,6 +534,7 @@ export default {
         AppTextbox,
         AppSelect,
         AppQuestion,
+        AppSortableUpload,
         JetSectionBorder,
         JetActionMessage,
         JetActionSection,
@@ -527,31 +553,24 @@ export default {
             type: Object,
             required: true,
         },
-        start: {
+        reservations: {
+            type: Array,
             required: true,
-        },
-        end: {
-            required: true,
-        },
-        period: {
-            required: false,
         },
     },
 
     data() {
         return {
             accept_terms: false,
+            show_onsite_contact_details: false,
+            show_fee_details: false,
+            show_music_details: false,
             form: this.$inertia.form({
-                //booking_officer: 2, auth->id
-                onsite_contact: {
-                    name: this.$page?.user?.name,
-                    phone: this.$page?.user?.phone,
-                    email: this.$page?.user?.email,
-                },
+                onsite_contact: {},
                 event: {
-                    start: moment(this?.start).format("HH:mm"),
-                    end: moment(this?.end).format("HH:mm"),
-/*                  title: '',
+/*                 start: this.minStart,
+                 end: this.maxEnd,
+                 title: '',
                     type: '',
                     description: '',
                     speakers: '',
@@ -564,14 +583,23 @@ export default {
                     },
                     alcohol: false
                 },
-                additional_notes: '',
+                //notes: '',
                 files: [],
+                room_id: null,
+                reservations: [],
             }, {
-                bag: 'createBooking',
+                bag: 'createBookingRequest',
                 resetOnSuccess: true,
             })
         }
 
+    },
+
+    mounted() {
+        this.form.room_id = this.room.id;
+        this.form.reservations = this.reservations;
+        this.form.event.start = this.minStart;
+        this.form.event.end = this.maxEnd;
     },
 
     filters: {
@@ -588,8 +616,47 @@ export default {
             this.form.post('/bookings', {
                 preserveScroll: true,
             }).then(response => {
-                console.log(response)
+                this.form.processing = false;
+                if (this.form.recentlySuccessful) {
+                    this.form.reset();
+                }
             })
+        },
+        uploadedFiles(files) {
+            this.form.files = files;
+        },
+    },
+
+    computed: {
+        reservation() {
+            return this.reservations[0];
+        },
+        isRecurring() {
+            return Object.keys(this.reservations).length > 1;
+        },
+        minStart() {
+            return moment(this.reservation?.start).format("HH:mm");
+        },
+        maxEnd() {
+            return moment(this.reservation?.end).format("HH:mm");
+        },
+    },
+
+    watch: {
+        show_onsite_contact_details(val) {
+            if(val === false) {
+                this.form.onsite_contact = {};
+            }
+        },
+        show_fee_details(val) {
+            if(val === false) {
+                delete this.form.event.fee;
+            }
+        },
+        show_music_details(val) {
+            if(val === false) {
+                delete this.form.event.music;
+            }
         },
     }
 }
