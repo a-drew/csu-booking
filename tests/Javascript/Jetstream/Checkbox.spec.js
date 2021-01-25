@@ -22,14 +22,14 @@ test('should mount without crashing', () => {
     expect(wrapper.text()).toBeDefined();
 })
 
-test('verify computed proxy field', () => {
+test('verify computed proxy field', (done) => {
     const wrapper = shallowMount(Component, {localVue});
 
-    wrapper.setProps({value: true});
-    wrapper.vm.proxyChecked = !wrapper.vm.proxyChecked;
+    wrapper.vm.proxyChecked = true;
 
     wrapper.vm.$nextTick(() => {
-        expect(wrapper.emitted().change).toBeTruthy()
+        expect(wrapper.emitted().change).toBeTruthy();
+        expect(wrapper.vm.proxyChecked).toBe(wrapper.vm.checked);
+        done();
     })
-
 })
