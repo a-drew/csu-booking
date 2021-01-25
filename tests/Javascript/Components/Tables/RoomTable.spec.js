@@ -41,7 +41,7 @@ test('should mount without crashing', () => {
     }
   })
 
-  
+
 
   expect(wrapper.text()).toBeDefined()
 })
@@ -65,7 +65,7 @@ test('should filter properly', () => {
 
   wrapper.setData({ filter: '' })
   expect(wrapper.html()).toContain('<td class="text-center lt-grey">1</td>')
-  
+
   wrapper.setData({ filter: 'building' })
   expect(wrapper.vm.filter).toBe('building')
   expect(wrapper.html()).toContain('<td class="text-center lt-grey">1</td>')
@@ -74,7 +74,47 @@ test('should filter properly', () => {
   expect(wrapper.vm.filter).toBe('thisfiltershouldnotwork')
   expect(wrapper.vm.filteredRooms.length).toBe(0)
 
-  
+
 
   expect(wrapper.text()).toBeDefined()
 })
+
+
+test('should show advanced filters popup', () => {
+    const wrapper = shallowMount(RoomTable, {
+        localVue,
+        propsData: {
+            rooms: [{
+                id: 1,
+                name: "name",
+                building: "building",
+                number: "1",
+                floor: 1,
+                status: "available"
+            }]
+        }
+    });
+    wrapper.vm.advancedFilters();
+    expect(wrapper.vm.showFilterModal).toBe(true);
+})
+
+test('should compute only active jsonfilter fields to send in post request', () => {
+    const wrapper = shallowMount(RoomTable, {
+        localVue,
+        propsData: {
+            rooms: [{
+                id: 1,
+                name: "name",
+                building: "building",
+                number: "1",
+                floor: 1,
+                status: "available"
+            }]
+        }
+    });
+
+    wrapper.vm.jsonFilters.food = true;
+    expect(wrapper.vm.activeJsonFilters).toStrictEqual({"food": true});
+})
+
+

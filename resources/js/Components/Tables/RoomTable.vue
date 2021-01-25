@@ -52,120 +52,85 @@
 
       <jet-dialog-modal :show="showFilterModal">
           <template #title>
-              Filter
+              Additional Room Filters
           </template>
 
           <template #content>
               <div class="flex">
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Capacity Standing</h2></div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              0-5
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              6-14
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              15+
-                          </div>
+                          <input
+                              type="number"
+                              id="capacity_standing"
+                              class="form-input w-2/3 h-2/3"
+                              v-model="jsonFilters.capacity_standing"
+                          >
                       </div>
                   </div>
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Capacity Sitting</h2></div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              0-5
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              6-14
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              15+
-                          </div>
+                          <input
+                              type="number"
+                              id="capacity_sitting"
+                              class="form-input w-2/3 h-2/3"
+                              v-model="jsonFilters.capacity_sitting"
+                          >
                       </div>
                   </div>
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Coffee Tables</h2></div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              0-2
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              2-5
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              6+
-                          </div>
+                          <input
+                              type="number"
+                              id="coffee_tables"
+                              class="form-input w-2/3 h-2/3"
+                              v-model="jsonFilters.coffee_tables"
+                          >
                       </div>
                   </div>
               </div>
 
               <div class="flex flex-row">
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Tables</h2></div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              0-2
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              2-5
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              6+
-                          </div>
+                          <input
+                              type="number"
+                              id="tables"
+                              class="form-input w-2/3 h-2/3"
+                              v-model="jsonFilters.tables"
+                          >
                       </div>
                   </div>
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Chairs</h2></div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              0-5
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              6-14
-                          </div>
-                      </div>
-                      <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
-                          <div class="text-sm text-gray-400 px-2">
-                              15+
-                          </div>
+                          <input
+                              type="number"
+                              id="chairs"
+                              class="form-input w-2/3 h-2/3"
+                              v-model="jsonFilters.chairs"
+                          >
                       </div>
                   </div>
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
+                      <div><h2>Sofas</h2></div>
+                      <div class="flex flex-row">
+                          <input
+                              type="number"
+                              id="sofas"
+                              class="form-input w-2/3 h-2/3"
+                              v-model="jsonFilters.sofas"
+                          >
+                      </div>
+                  </div>
+
+              </div>
+
+              <div class="flex flex-row">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Electronics</h2></div>
                       <div class="flex flex-row">
                           <div><input type="checkbox"></div>
@@ -180,47 +145,59 @@
                           </div>
                       </div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
+                          <div><input type="checkbox" v-model="jsonFilters.whiteboard"></div>
                           <div class="text-sm text-gray-400 px-2">
                               Whiteboard
                           </div>
                       </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox" v-model="jsonFilters.projector"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Projector
+                          </div>
+                      </div>
                   </div>
-              </div>
-
-              <div class="flex flex-row">
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Amenities Permitted</h2></div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
+                          <div><input type="checkbox" v-model="jsonFilters.food"></div>
                           <div class="text-sm text-gray-400 px-2">
                               Food
                           </div>
                       </div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
+                          <div><input type="checkbox" v-model="jsonFilters.alcohol"></div>
                           <div class="text-sm text-gray-400 px-2">
                               Alcohol
                           </div>
                       </div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
+                          <div><input type="checkbox" v-model="jsonFilters.a_v_permitted"></div>
                           <div class="text-sm text-gray-400 px-2">
                               AV
                           </div>
                       </div>
                       <div class="flex flex-row">
-                          <div><input type="checkbox"></div>
+                          <div><input type="checkbox" v-model="jsonFilters.ambiant_music"></div>
                           <div class="text-sm text-gray-400 px-2">
                               Ambient Music
                           </div>
                       </div>
                   </div>
-                  <div class="flex flex-col flex-1 py-2">
+                  <div class="flex flex-col flex-1 py-2 px-3">
                       <div><h2>Event Type</h2></div>
-                      <div>Sales for Profit</div>
-                      <div>Fundraiser</div>
-                      <div>3</div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox" v-model="jsonFilters.sale_for_profit"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Sales for Profit
+                          </div>
+                      </div>
+                      <div class="flex flex-row">
+                          <div><input type="checkbox" v-model="jsonFilters.fundraiser"></div>
+                          <div class="text-sm text-gray-400 px-2">
+                              Fundraiser
+                          </div>
+                      </div>
                   </div>
               </div>
 
@@ -228,6 +205,9 @@
           </template>
 
           <template #footer>
+              <button id="toggleFilters" @click="advancedFilters()">
+                  Filter
+              </button>
               <jet-secondary-button @click.native="toggleAdvancedFilters">
                   Close
               </jet-secondary-button>
@@ -242,6 +222,8 @@ import Button from "@src/Jetstream/Button";
 import JetDialogModal from "@src/Jetstream/DialogModal";
 import JetSecondaryButton from "@src/Jetstream/SecondaryButton";
 import Label from "@src/Jetstream/Label";
+import JetInput from "@src/Jetstream/Input";
+import Input from "@src/Jetstream/Input";
 
 export default {
   name: "RoomTable",
@@ -253,17 +235,37 @@ export default {
     },
   },
   components: {
+      Input,
       Button,
       CreateBookingRequestModal,
       JetDialogModal,
       JetSecondaryButton,
-      Label
+      Label,
+      JetInput
   },
   data() {
       return {
           filter: '',
           roomBeingBooked: null,
-          jsonFilters: {},
+          jsonFilters: {
+              capacity_standing: 0,
+              capacity_sitting: 0,
+              coffee_tables: 0,
+              tables: 0,
+              chairs: 0,
+              sofas: 0,
+              computers: false,
+              television: false,
+              whiteboard: false,
+              projector: false,
+              food: false,
+              alcohol: false,
+              a_v_permitted: false,
+              ambiant_music: false,
+              sale_for_profit: false,
+              fundraiser: false
+
+          },
           showFilterModal: false
       }
   },
@@ -289,19 +291,26 @@ export default {
                         id.includes(searchTerm);
 
             });
+        },
+        activeJsonFilters: function () {
+            let activeJsonFilters = {};
+            for (let key of Object.keys(this.jsonFilters)) {
+                if(this.jsonFilters[key]){
+                    activeJsonFilters[key] = this.jsonFilters[key];
+                }
+            }
+            return activeJsonFilters;
         }
     },
     methods: {
         advancedFilters(){
-            const json_filters = {
-                "a_v_permitted": false,
-                "alcohol": false
-            };
-            this.$emit('filterRoomsJson', json_filters)
+            this.$emit('filterRoomsJson', this.activeJsonFilters);
+            this.toggleAdvancedFilters();
         },
         toggleAdvancedFilters(){
             this.showFilterModal = !this.showFilterModal;
         }
-    }
+    },
+
 };
 </script>
