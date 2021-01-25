@@ -12,6 +12,7 @@
                 </select>
                 <jet-input-error :message="form.error('room_id')" class="mt-2" />
             </div>
+          <jet-input-error :message="form.error('recurrences.0')" class="mt-2" />
 
             <div class="m-6">
                 <jet-label for="start_time" value="Start Time" />
@@ -19,10 +20,10 @@
                     id="start_time"
                     type="datetime-local"
                     class="mt-1 block w-full"
-                    v-model="form.start_time"
+                    v-model="form.recurrences[0].start_time"
                     autofocus
                 />
-                <jet-input-error :message="form.error('start_time')" class="mt-2" />
+                <jet-input-error :message="form.error('recurrences.0.start_time')" class="mt-2" />
             </div>
 
             <div class="m-6">
@@ -31,30 +32,30 @@
                     id="end_time"
                     type="datetime-local"
                     class="mt-1 block w-full"
-                    v-model="form.end_time"
+                    v-model="form.recurrences[0].end_time"
                     autofocus
                 />
                 <jet-input-error
-                    :message="form.error('end_time')"
+                    :message="form.error('recurrences.0.end_time')"
                     class="mt-2"
                 />
             </div>
 
             <div class="m-6">
                 <jet-label>Upload Reference Files</jet-label>
-                <input 
-                type="file" 
+                <input
+                type="file"
                 @change="fieldChange"
-                multiple  
+                multiple
                 />
-            </div>  
+            </div>
             <div class="m-6">
                 <jet-input-error
                     :message="form.error('availabilities')"
                     class="mt-2"
                 />
             </div>
-            
+
             <div class="m-6">
                 <jet-input-error :message="form.error('booked_too_close')" class="mt-2" />
             </div>
@@ -104,6 +105,7 @@ export default {
     },
 
     props: {
+        //references a reservation
         booking_request: {
             type: Object,
             required: false
@@ -118,21 +120,23 @@ export default {
 
     data() {
         return {
-            availableExcludingCurrent: [], 
+            availableExcludingCurrent: [],
             form: this.$inertia.form(
-                { 
-                    user_id: null,
+                {
+                    booking_request_id: null,
                     room_id: null,
-                    start_time: null,
-                    end_time: null,
+                    recurrences: [{
+                      start_time: null,
+                      end_time: null,
+                    }],
                     reference: [],
                     _method: 'PUT'
                 },
                 {
-                    bag: "updateBooking_request"
+                    bag: "updateReservationsRequest"
                 }
             ),
-            
+
         };
     },
 
@@ -144,10 +148,10 @@ export default {
             this.$emit("close");
         },
         updateBookingRequest() {
-            this.form.post("/bookings/" + this.booking_request?.id, {
+            this.form.post("/reservation/" + this.booking_request?.id, {
                     preserveState: true
                 })
-                .then(() => {
+                .then(response => {
                     if (this.form.successful) {
                         this.closeModal();
                     }
@@ -168,7 +172,7 @@ export default {
     },
     watch: {
         booking_request(booking_request) {
-            this.form.user_id = booking_request?.user_id;
+            this.form.booking_request_id = booking_request?.booking_request_id;
             this.form.room_id = booking_request?.room_id;
             this.form.start_time = booking_request?.start_time.substring(0, 16);
             this.form.end_time = booking_request?.end_time.substring(0, 16);

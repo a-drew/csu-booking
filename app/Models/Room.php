@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Facade\Ignition\DumpRecorder\Dump;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,14 +50,17 @@ class Room extends Model
     }
 
     /**
-     * Get the booking requests for the room.
+     * Get the rooms that are part of the booking request.
      */
     public function bookingRequests()
     {
-        return $this->hasMany(BookingRequest::class);
+        return $this->belongsToMany(BookingRequest::class,
+            'reservations',
+            'room_id',
+            'booking_request_id');
     }
 
-    /** 
+    /**
      * Get the blackouts on the room
     */
 
@@ -99,23 +103,7 @@ class Room extends Model
      */
     public function verifyDatetimesAreWithinAvailabilities($startDate, $endDate)
     {
-        $startTime = Carbon::parse($startDate)->toTimeString();
-        $endTime = Carbon::parse($endDate)->toTimeString();
-
-        $availabilityStart =
-            Availability::where('weekday', Carbon::parse($startDate)->format('l'))
-                ->where('room_id', '=', $this->id)->first();
-
-        $availabilityEnd =
-            Availability::where('weekday', Carbon::parse($endDate)->format('l'))
-                ->where('room_id', '=', $this->id)->first();
-
-        if (
-            empty($availabilityStart) ||
-            empty($availabilityEnd) ||
-            $startTime < $availabilityStart->opening_hours ||
-            $endTime > $availabilityEnd->closing_hours
-        ) {
+        if ($this->notWithinAvailabilities($startDate, $endDate)) {
             throw ValidationException::withMessages([
                 'availabilities' => 'Booking request not within availabilities!'
             ]);
@@ -133,5 +121,64 @@ class Room extends Model
             throw ValidationException::withMessages(['booked_too_far' => 'You cannot book events farther than '.$max_days.' days from the event']);
         }
     }
+    public function verifyDatesAreWithinRoomRestrictionsValidation($startDate, $fail, $attribute)
+    {
+        $startTime = Carbon::parse($startDate)->toDateString();
+        $min_days = $this->min_days_advance;
+        $max_days = $this->max_days_advance;
+
+        if(Carbon::today()-> diffInDays($startTime) < $min_days) {
+            $fail($attribute.' - You can not book events closer than ' .$min_days.' days to the event');
+        } elseif(Carbon::today()-> diffInDays($startTime) > $max_days) {
+          $fail($attribute.' - You cannot book events farther than '.$max_days.' days from the event');
+        }
+    }
+    public function verifyDatetimesAreWithinAvailabilitiesValidation($startDate, $endDate, $fail, $attribute)
+  {
+    if ($this->notWithinAvailabilities($startDate, $endDate)) {
+        $fail($attribute.' - Booking request not within availabilities!');
+    }
+  }
+
+  public function verifyRoomIsFreeValidation($startDate, $endDate, $fail, $attribute, $reservation = null)
+  {
+
+    $query = Reservation::where('room_id', $this->id);
+    if($reservation){
+      $query = $query->where('id','!=', $reservation->id);
+    }
+    $query = $query->where(function ($query) use ($startDate, $endDate) {
+      $query->whereBetween('start_time', [$startDate, $endDate])
+      ->orWhereBetween('end_time', [$startDate, $endDate])
+      ->orWhere(function ($query) use ($startDate, $endDate) {
+        $query->where('start_time', '<', $startDate)->where('end_time', '>', $endDate);
+      });
+    });
+      $conflict = $query->first();
+
+    if ($conflict) {
+      $fail($attribute . ' - Is blocked by another reservation.');
+    }
+  }
+
+  private function notWithinAvailabilities($startDate, $endDate)
+  {
+    $startTime = Carbon::parse($startDate)->toTimeString();
+    $endTime = Carbon::parse($endDate)->toTimeString();
+
+    $availabilityStart =
+      Availability::where('weekday', Carbon::parse($startDate)->format('l'))
+        ->where('room_id', '=', $this->id)->first();
+
+    $availabilityEnd =
+      Availability::where('weekday', Carbon::parse($endDate)->format('l'))
+        ->where('room_id', '=', $this->id)->first();
+
+    return
+      empty($availabilityStart) ||
+      empty($availabilityEnd) ||
+      $startTime < $availabilityStart->opening_hours ||
+      $endTime > $availabilityEnd->closing_hours;
+  }
 
 }
