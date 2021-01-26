@@ -48,6 +48,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::get('bookings/download/{folder}', \App\Http\Controllers\BookingRequestController::class.'@downloadReferenceFiles');
     Route::resource('reservation',\App\Http\Controllers\ReservationsController::class);
 
+    Route::get('bookingsList',[\App\Http\Controllers\BookingRequestController::class, 'list']);
+    Route::get('bookings/edit',[\App\Http\Controllers\BookingRequestController::class, 'edit']);
+
 
     if (env('APP_ENV') == 'local' || env('APP_ENV') == 'testing') {
         Route::resource('demo/tables',\App\Http\Controllers\DemoController::class)->only(['index']);

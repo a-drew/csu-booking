@@ -42,16 +42,15 @@ class BookingRequestController extends Controller
             'reservations' => [
                 [
                     'start' => now(),
-                    'end' => now()->addHours(2),
+                    'end' => now()->addMinutes(2),
                 ],
                 [
                     'start' => now()->addDay(),
-                    'end' => now()->addDay()->addHours(2),
+                    'end' => now()->addDay()->addMinutes(2),
                 ],
             ]
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -66,8 +65,8 @@ class BookingRequestController extends Controller
 
         // validate room still available at given times
         foreach ($data['reservations'] as $value) {
-            $room->verifyDatesAreWithinRoomRestrictions($value['start'], $value['end']);
-            $room->verifyDatetimesAreWithinAvailabilities($value['start'], $value['end']);
+            //$room->verifyDatesAreWithinRoomRestrictions($value['start'], $value['end']);
+            //$room->verifyDatetimesAreWithinAvailabilities($value['start'], $value['end']);
             //$room->verifyRoomIsFreeValidation($value['start'], $value['end']);
         }
 
@@ -131,10 +130,14 @@ class BookingRequestController extends Controller
      * @param  \App\Models\BookingRequest  $bookingRequest
      * @return \Illuminate\Http\Response
      */
-    // public function edit(BookingRequest $bookingRequest)
-    // {
-    //     //
-    // }
+    public function edit(BookingRequest $bookingRequest)
+    { 
+        //$booking = $bookingRequest->load('user', 'reservations', 'reservations.room');
+        //dd($booking);
+        return inertia('Requestee/EditBookingForm', [
+            'booking' => $bookingRequest->load('user', 'reservations', 'reservations.room'),
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -228,4 +231,15 @@ class BookingRequestController extends Controller
         return response()->download(Storage::disk('public')->path($fileName))->deleteFileAfterSend(true);
 
     }
+
+    public function list(Request $request)
+    {
+        return inertia('Admin/BookingsList/Index', [
+            'bookings' => BookingRequest::with('user','reservations.room')->get(),
+
+        ]);
+    }
+
+ 
+
 }
