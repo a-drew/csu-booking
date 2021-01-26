@@ -49,22 +49,39 @@ class BookingRequestControllerTest extends TestCase
 
         $this->createReservationAvailabilities($date, $room);
 
+        $start = Carbon::parse($date);
+        $end = $start->copy()->addHours(4);
+
         $response = $this->actingAs($user)->post('/bookings', [
             'room_id' => $room->id,
-            'start_time' => $date->format('Y-m-d\TH:i:00'),
-            'end_time' => Carbon::parse($date)->addMinutes(1)->toDateTime()->format('Y-m-d\TH:i:00')
+            'reservations' => [
+                [
+                    'start' => $start->format('Y-m-d\TH:i:00'),
+                    'end' => $end->format('Y-m-d\TH:i:00')
+                ]
+            ],
+            'event' => [
+              'start' => $start->copy()->addHour()->format('H:i'),
+              'end' => $end->copy()->subHour()->format('H:i'),
+              'title' => $this->faker->word,
+              'type' => $this->faker->word,
+              'description' => $this->faker->paragraph,
+              'guest_speakers' => $this->faker->name,
+              'attendees' => $this->faker->numberBetween(100),
+            ]
         ]);
 
         $response->assertStatus(302);
-        $this->assertDatabaseCount('booking_requests', 1);
+        $response->assertSessionDoesntHaveErrors();
 
-        $this->assertDatabaseHas('booking_requests', ['user_id' => $user->id, ]);
+        $this->assertDatabaseCount('booking_requests', 1);
+        $this->assertDatabaseHas('booking_requests', ['user_id' => $user->id]);
         $booking = BookingRequest::first()->id;
         $this->assertDatabaseHas('reservations', [
             'room_id' => $room->id,
-            'start_time' => $date->format('Y-m-d H:i:00'),
-            'end_time' => Carbon::parse($date)->addMinutes(1)->toDateTime()->format('Y-m-d H:i:00'),
-            'booking_request_id' => $booking
+            'booking_request_id' => $booking,
+            'start_time' => $start->format('Y-m-d H:i:00'),
+            'end_time' => $end->format('Y-m-d H:i:00'),
         ]);
 
     }
@@ -119,7 +136,8 @@ class BookingRequestControllerTest extends TestCase
             'room_id' => $room->id,
             'start_time' => $reservation->start_time->toDateTimeString(),
             'end_time' => $reservation->end_time->toDateTimeString(),
-            'reference' => $files]);
+            'reference' => $files]
+        );
 
       Storage::disk('public')->assertExists($room->id . '_' . strtotime($reservation->start_time) . '_reference/testFile.txt');
         $response->assertStatus(302);
@@ -171,8 +189,12 @@ class BookingRequestControllerTest extends TestCase
 
       $response = $this->actingAs($user)->post('/bookings', [
         'room_id' => $room->id,
-        'start_time' => Carbon::parse($date)->toDateTimeString(),
-        'end_time' => Carbon::parse($date)->addMinute()->toDateTimeString()
+        'reservations' => [
+          [
+            'start' => Carbon::parse($date)->toDateTimeString(),
+            'end' => Carbon::parse($date)->addMinute->toDateTimeString(),
+          ]
+        ]
       ]);
 
       $response->assertStatus(404);
@@ -423,7 +445,7 @@ class BookingRequestControllerTest extends TestCase
     private function createReservationAvailabilities($start, $room)
     {
         $openingHours = Carbon::parse($start)->subMinutes(5)->toTimeString();
-        $closingHours = Carbon::parse($start)->addMinutes(10)->toTimeString();
+        $closingHours = Carbon::parse($start)->addHours(10)->toTimeString();
 
         Availability::create([
             'room_id' => $room->id,

@@ -61,19 +61,25 @@ class BookingRequestController extends Controller
     public function store(CreateBookingRequest $request)
     {
         $data = $request->validated();
-        // validate room still available at given times
         $room = Room::findOrFail($data['room_id']);
-        //$room = Room::available()->findOrFail($data['room_id']);
-        //$room->verifyDatetimesAreWithinAvailabilities($data['reservations'][0]['start'], $data['reservations'][0]['end']);
-        //$room->verifyDatesAreWithinRoomRestrictions($data['reservations'][0]['start'], $data['reservations'][0]['end']);
 
-        // save the uploaded files
-        $referenceFolder = "{$room->id}_".hash('sha256', now()).'_reference';
-
-        foreach($data['files'] as $file) {
-            $name = $file->getClientOriginalName();
-            Storage::disk('public')->putFileAs($referenceFolder. '/', $file, $name);
+        // validate room still available at given times
+        foreach ($data['reservations'] as $value) {
+            $room->verifyDatesAreWithinRoomRestrictions($value['start'], $value['end']);
+            $room->verifyDatetimesAreWithinAvailabilities($value['start'], $value['end']);
+            //$room->verifyRoomIsFreeValidation($value['start'], $value['end']);
         }
+
+        if (array_key_exists('files', $data)) {
+            // save the uploaded files
+            $referenceFolder = "{$room->id}_".hash('sha256', now()).'_reference';
+
+            foreach($data['files'] as $file) {
+                $name = $file->getClientOriginalName();
+                Storage::disk('public')->putFileAs($referenceFolder. '/', $file, $name);
+            }
+        }
+        \DB::beginTransaction();
 
         // store booking in db
         $booking = BookingRequest::create([
@@ -84,18 +90,24 @@ class BookingRequestController extends Controller
             'event' => $data['event'],
             'onsite_contact' => $data['onsite_contact'] ?? [],
             'notes' => $data['notes'] ?? '',
-            'reference' => (count($data['files']) > 0) ? ["path" => $referenceFolder] : [],
+            'reference' => (array_key_exists('files', $data) && count($data['files']) > 0) ?
+                ["path" => $referenceFolder] : [],
         ]);
+
+
+        foreach ($data['reservations'] as $reservation) {
+            Reservation::create([
+                'room_id' => $room->id,
+                'booking_request_id' => $booking->id,
+                'start_time' => $reservation['start'],
+                'end_time' => $reservation['end'],
+            ]);
+        }
+
+        \DB::commit();
 
         $log = '[' . date("F j, Y, g:i a") . ']' . ' - Created booking request';
         BookingRequestUpdated::dispatch($booking, $log);
-
-        Reservation::create([
-            'room_id' => $room->id,
-            'booking_request_id' => $booking->id,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-        ]);
 
         return redirect()->route('bookings.index')
             ->with('flash', ['banner' => 'Your Booking Request was submitted']);

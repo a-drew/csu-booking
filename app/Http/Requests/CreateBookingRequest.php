@@ -25,7 +25,7 @@ class CreateBookingRequest extends FormRequest
             'room_id' => ['required', 'integer'],
 
             'reservations' => ['required'],
-            'reservations.*.start' => [ 'required', 'date'],
+            'reservations.*.start' => ['required', 'date'],
             'reservations.*.end' => ['required', 'date'],
 
             'onsite_contact.name' => ['required_with:onsite_contact.phone,onsite_contact.email','string', 'max:255'],
