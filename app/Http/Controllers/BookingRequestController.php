@@ -62,6 +62,7 @@ class BookingRequestController extends Controller
     {
         $data = $request->validated();
         $room = Room::findOrFail($data['room_id']);
+        $reservation = $data['reservations'][0];
 
         // validate room still available at given times
         foreach ($data['reservations'] as $value) {
@@ -72,7 +73,7 @@ class BookingRequestController extends Controller
 
         if (array_key_exists('files', $data)) {
             // save the uploaded files
-            $referenceFolder = "{$room->id}_".hash('sha256', now()).'_reference';
+            $referenceFolder = "{$room->id}_".strtotime($reservation['start']).'_reference';
 
             foreach($data['files'] as $file) {
                 $name = $file->getClientOriginalName();
@@ -84,8 +85,8 @@ class BookingRequestController extends Controller
         // store booking in db
         $booking = BookingRequest::create([
             'user_id' => $request->user()->id,
-            'start_time' => $data['reservations'][0]['start'],
-            'end_time' => $data['reservations'][0]['end'],
+            'start_time' => $reservation['start'],
+            'end_time' => $reservation['end'],
             'status' => 'review',
             'event' => $data['event'],
             'onsite_contact' => $data['onsite_contact'] ?? [],
