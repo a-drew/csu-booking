@@ -5,8 +5,7 @@ jest.mock('laravel-jetstream')
 import {createLocalVue, mount, shallowMount} from '@vue/test-utils'
 import {InertiaApp} from '@inertiajs/inertia-vue'
 import {InertiaForm} from 'laravel-jetstream'
-import Component from '@src/Jetstream/Checkbox'
-import regeneratorRuntime from "regenerator-runtime/runtime"
+import Component from '@src/Components/Form/SortableUpload'
 
 let localVue
 
@@ -23,13 +22,14 @@ test('should mount without crashing', () => {
     expect(wrapper.text()).toBeDefined();
 })
 
-test('verify computed proxy field', async () => {
+test('verify computed proxy field', () => {
     const wrapper = shallowMount(Component, {localVue});
 
-    expect(wrapper.emitted().change).toBeTruthy();
+    wrapper.vm.proxyChecked = true;
 
-    expect(Component.computed.proxyChecked.set()).toBeCalled();
-    await wrapper.find('input').trigger('click');
+    expect(wrapper.vm.proxyChecked).toBe(true);
+    wrapper.vm.$nextTick(() => {
+        expect(wrapper.emitted().change).toBeTruthy()
+    })
 
-    expect(Component.computed.proxyChecked.get()).toBeCalled();
 })
