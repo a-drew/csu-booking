@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlackoutController;
 use App\Http\Controllers\BookingRequestController;
+use App\Http\Controllers\BookingReviewController;
 use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\RestrictionsController;
 use App\Http\Controllers\RoleController;
@@ -45,6 +46,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
       Route::post('app_logo', [SettingsController::class, 'storeAppLogo'])->name('app.logo');
       Route::post('app_name', [SettingsController::class, 'storeAppName'])->name('app.name');
     });
+  });
+
+  Route::prefix('reviews')->name('reviews.')->group(function () {
+      Route::get('', [BookingReviewController::class, 'index'])->name('index');
   });
 
   Route::prefix('bookings')->name('bookings.')->group(function () {

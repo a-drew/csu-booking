@@ -40,7 +40,7 @@ class BookingRequestController extends Controller
     public function index(Request $request)
     {
         return inertia('Admin/BookingRequests/Index', [
-            'booking_requests' => BookingRequest::with('user', 'reservations', $this->reservationRoom)->get(),
+            'booking_requests' => BookingRequest::with('requester', 'reservations', $this->reservationRoom)->get(),
             'rooms' => Room::hideUserRestrictions($request->user())->with('availabilities', 'blackouts')->get(),
         ]);
     }
