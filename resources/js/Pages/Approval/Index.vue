@@ -22,30 +22,26 @@
                   <div class="text-sm text-gray-400">
                     {{ booking.requester.name }}
                   </div>
+                  <div class="text-sm text-gray-400">
+                    {{ booking.status }}
+                  </div>
                 </div>
 
-                <div class="flex items-center">
-                  <div v-if="booking.created_at" class="text-sm text-gray-400">
-                    Created {{ booking.created_at }}
+                <div class="flex space-x-4 items-center">
+                  <div class="text-sm text-gray-400">
+                    Created On {{ booking.created_diff }}
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    Last Updated On {{ booking.updated_diff }}
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    Status: {{ booking.status }}
                   </div>
 
-                  <div v-if="booking.reviewers > 0" class="text-sm text-gray-400">
-                  </div>
-
-                  <x-select v-model="booking.reviewers" class="mt-1 block w-full">
-                    <option :value="null" selected="selected">Choose here</option>
-                    <option v-for="room in availableRooms" :key="room.id" :value="room.id">{{room.name}}</option>
-                  </x-select>
-
-                  <button class="cursor-pointer ml-6 text-sm text-blue-800 focus:outline-none"
-                          @click="debug(booking)">
-                    Approve
-                  </button>
-
-                  <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none"
-                          @click="debug(booking)">
-                    Deny
-                  </button>
+                  <jet-responsive-nav-link :href="'/bookings/'+booking.id+'/review'"
+                                class="cursor-pointer ml-3 text-sm text-blue-800 focus:outline-none">
+                    Open Details
+                  </jet-responsive-nav-link>
                 </div>
               </div>
             </div>
@@ -59,17 +55,17 @@
 </template>
 
 <script>
+import JetResponsiveNavLink from "@src/Jetstream/ResponsiveNavLink"
 import JetSectionBorder from '@src/Jetstream/SectionBorder'
 import XSection from "@src/Components/XSection"
-import XSelect from "@src/Components/Form/Select"
 import AppLayout from '@src/Layouts/AppLayout'
 
 export default {
   components: {
-    AppLayout,
+    JetResponsiveNavLink,
     JetSectionBorder,
+    AppLayout,
     XSection,
-    XSelect,
   },
   props: {
     bookings: {
@@ -83,13 +79,11 @@ export default {
   },
   data() {
     return {
+
     }
   },
   methods:{
-    debug(a) {
-      alert(a)
-      console.log(a)
-    }
+
   }
 }
 </script>

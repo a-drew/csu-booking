@@ -138,6 +138,12 @@
           >
             Create
           </jet-nav-sub>
+          <jet-nav-sub
+            href="/bookings/review"
+            :active="$page.currentRouteName === 'bookings.review'"
+          >
+            Review
+          </jet-nav-sub>
         </div>
         <div
           v-else-if="showAdminSubnav()"

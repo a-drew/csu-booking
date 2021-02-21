@@ -48,15 +48,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
   });
 
-  Route::prefix('reviews')->name('reviews.')->group(function () {
-      Route::get('', [BookingReviewController::class, 'index'])->name('index');
-  });
-
   Route::prefix('bookings')->name('bookings.')->group(function () {
     Route::resource('', BookingRequestController::class)->except('show')->parameters(['' => 'booking']);
     Route::post('create', [BookingRequestController::class, 'createInit'])->name('createInit');
     Route::get('list', [BookingRequestController::class, 'list'])->name('list');
     Route::get('download/{folder}', [BookingRequestController::class, 'downloadReferenceFiles'])->name('download');
+
+    Route::name('reviews.')->middleware('can:bookings.approve')->group(function () {
+      Route::get('review', [BookingReviewController::class, 'index'])->name('index');
+      Route::get('{booking}/review', [BookingReviewController::class, 'show'])->name('show');
+      Route::post('{booking}/review', [BookingReviewController::class, 'review'])->name('update');
+    });
   });
 
   Route::resource('reservation', ReservationsController::class);
