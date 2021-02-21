@@ -16,7 +16,6 @@ class BookingResource extends JsonResource
      */
     public function toArray($request)
     {
-        $a = [];
         return array_merge(parent::toArray($request), [
             'status' => ucfirst($this->status),
             'created_diff' => $this->created_at->diffForHumans(),

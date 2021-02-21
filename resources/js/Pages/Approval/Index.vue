@@ -75,15 +75,5 @@ export default {
       },
     }
   },
-  mounted(){
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods:{
-
-  }
 }
 </script>

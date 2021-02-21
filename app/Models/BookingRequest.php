@@ -51,7 +51,7 @@ class BookingRequest extends Model
         return $this->belongsToMany(Room::class,
             'reservations',
             'booking_request_id',
-            'room_id');
+            'room_id')->withTimestamps();
     }
 
 

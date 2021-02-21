@@ -7,16 +7,12 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class BookingCollection extends ResourceCollection
 {
 
-    public static $wrap = null; // remove the useless dta wrapper, bookings aren't paginated
-
     /**
-     * Transform the resource collection into an array.
+     * The "data" wrapper that should be applied.
+     * Remove the useless data wrapper, bookings aren't paginated
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @var string
      */
-    public function toArray($request)
-    {
-        return parent::toArray($request);
-    }
+    public static $wrap = null;
+
 }
