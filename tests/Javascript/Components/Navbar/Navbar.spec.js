@@ -17,9 +17,11 @@ test('should mount without crashing', () => {
   shallowMount(Navbar, {localVue,
     mocks: {
       $page: {
-        currentRouteName: "dashboard",
-        user: {
-          can: []
+        props: {
+          currentRouteName: "dashboard",
+          user: {
+            can: []
+          }
         }
       }
     }
@@ -30,11 +32,13 @@ test('showAdminSubnav should be true for admin pages', () => {
   const wrapper = shallowMount(Navbar, {localVue,
     mocks: {
       $page: {
-        currentRouteName: "admin.settings.index",
-        user: {
-          can: [
-            'users'
-          ]
+        props: {
+          currentRouteName: "admin.settings.index",
+          user: {
+            can: [
+              'users'
+            ]
+          }
         }
       }
     }
@@ -48,11 +52,13 @@ test('showBookingNav should be true for booking pages', () => {
   const wrapper = shallowMount(Navbar, {localVue,
     mocks: {
       $page: {
-        currentRouteName: "bookings.index",
-        user: {
-          can: [
-            'users'
-          ]
+        props: {
+          currentRouteName: "bookings.index",
+          user: {
+            can: [
+              'users'
+            ]
+          }
         }
       }
     }

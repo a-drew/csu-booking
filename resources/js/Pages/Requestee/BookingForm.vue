@@ -38,7 +38,7 @@
                         <div class="col-span-6">
                             <jet-label value="Organization"/>
                             <h3 class="text-lg font-medium text-gray-900 py-2">
-                                {{ $page.user.organization }}
+                                {{ $page.props.user.organization }}
                             </h3>
                         </div>
 
@@ -46,7 +46,7 @@
                         <div class="col-span-6">
                             <jet-label value="Booking Officer"/>
                             <h3 class="text-lg font-medium text-gray-900">
-                                {{ $page.user.name }}
+                                {{ $page.props.user.name }}
                             </h3>
                         </div>
 
@@ -54,7 +54,7 @@
                         <div class="col-span-3">
                             <jet-label value="Email"/>
                             <h3 class="text-lg font-medium text-gray-900">
-                                {{ $page.user.email }}
+                                {{ $page.props.user.email }}
                             </h3>
                         </div>
 
@@ -62,7 +62,7 @@
                         <div class="col-span-3">
                             <jet-label value="Phone"/>
                             <h3 class="text-lg font-medium text-gray-900">
-                                {{ $page.user.phone }}
+                                {{ $page.props.user.phone }}
                             </h3>
                         </div>
 

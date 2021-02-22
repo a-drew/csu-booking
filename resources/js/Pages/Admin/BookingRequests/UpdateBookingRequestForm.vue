@@ -142,8 +142,8 @@ export default {
 
     methods: {
         closeModal() {
-            if (this.$page && this.$page.errorBags.updateBooking_request) {
-                delete this.$page.errorBags.updateBooking_request;
+            if (this.$page && this.$page.props.errorBags.updateBooking_request) {
+                delete this.$page.props.errorBags.updateBooking_request;
             }
             this.$emit("close");
         },

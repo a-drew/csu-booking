@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="user in Users" :key="user.id">
+      <tr v-for="user in users" :key="user.id">
         <td class="text-center lt-grey">{{ user.name }}</td>
         <td class="text-center lt-grey">{{ user.email }}</td>
         <td class="text-center lt-grey">
@@ -32,7 +32,7 @@ export default {
 
   name: "userTable",
   props: {
-    Users: {
+    users: {
       type: Array,
       default: [],
       required: true

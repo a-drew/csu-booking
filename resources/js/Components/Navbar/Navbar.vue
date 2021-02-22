@@ -5,9 +5,9 @@
           <a href="/dashboard">
             <jet-application-mark class="block h-15 w-auto"/>
           </a>
-          <h1 class="ml-3 pl-3 border-l-2 border-gray-600 text-2xl"> {{$page.app_name}} </h1>
+          <h1 class="ml-3 pl-3 border-l-2 border-gray-600 text-2xl"> {{$page.props.app_name}} </h1>
         </div>
-      
+
 
     <nav class="col-start-3 bg-white border-b border-gray-100 top-nav" aria-label="Main navBar">
       <!-- Primary Navigation Menu -->
@@ -18,20 +18,20 @@
             <div class="hidden space-x-8 sm:flex">
               <jet-nav-link
                 href="/dashboard"
-                :active="$page.currentRouteName === 'dashboard'"
+                :active="$page.props.currentRouteName === 'dashboard'"
               >
                 Home
               </jet-nav-link>
               <jet-nav-link
-                v-if="$page.user.can.includes('bookings')"
+                v-if="$page.props.user.can.includes('bookings.*')"
                 href="/bookings"
-                :active="$page.currentRouteName === 'rooms'"
+                :active="$page.props.currentRouteName === 'rooms'"
               >
                 Bookings
               </jet-nav-link>
               <!--                TODO: Adjust this permission-->
               <jet-nav-link
-                v-if="$page.user.can.includes('users')"
+                v-if="$page.props.user.can.includes('users.*')"
                 href="/admin/rooms"
                 :active="showAdminSubnav"
               >
@@ -47,13 +47,13 @@
                 <template #trigger>
                   <button
                     dusk="nav-profile"
-                    v-if="$page.jetstream.managesProfilePhotos"
+                    v-if="$page.props.jetstream.managesProfilePhotos"
                     class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out"
                   >
                     <img
                       class="h-8 w-8 rounded-full object-cover"
-                      :src="$page.user.profile_photo_url"
-                      :alt="$page.user.name"
+                      :src="$page.props.user.profile_photo_url"
+                      :alt="$page.props.user.name"
                     />
                   </button>
 
@@ -62,7 +62,7 @@
                     v-else
                     class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
                   >
-                    <span class="block">{{ $page.user.name }}</span>
+                    <span class="block">{{ $page.props.user.name }}</span>
 
                     <span class="block ml-1">
                       <svg
@@ -106,11 +106,11 @@
        <nav class="sub-nav col-start-3" aria-label="SubnavBar">
       <Subnavbar>
         <div
-          v-if="$page.currentRouteName === 'dashboard'"
+          v-if="$page.props.currentRouteName === 'dashboard'"
           class="space-x-8 sm:flex justify-start">
           <jet-nav-sub
             href="/dashboard"
-            :active="$page.currentRouteName === 'dashboard'"
+            :active="$page.props.currentRouteName === 'dashboard'"
           >
             Dashboard
           </jet-nav-sub>
@@ -121,25 +121,25 @@
         >
           <jet-nav-sub
             href="/bookings/list"
-            :active="$page.currentRouteName === 'bookings.list'"
+            :active="$page.props.currentRouteName === 'bookings.list'"
           >
             My Bookings
           </jet-nav-sub>
           <jet-nav-sub
             href="/bookings"
-            :active="$page.currentRouteName === 'bookings.index'"
+            :active="$page.props.currentRouteName === 'bookings.index'"
           >
             Search
           </jet-nav-sub>
           <jet-nav-sub
             href="/bookings/create"
-            :active="$page.currentRouteName === 'bookings.create'"
+            :active="$page.props.currentRouteName === 'bookings.create'"
           >
             Create
           </jet-nav-sub>
           <jet-nav-sub
             href="/bookings/review"
-            :active="$page.currentRouteName === 'bookings.review'"
+            :active="$page.props.currentRouteName === 'bookings.review'"
           >
             Review
           </jet-nav-sub>
@@ -150,25 +150,25 @@
         >
           <jet-nav-sub
             href="/admin/rooms"
-            :active="$page.currentRouteName === 'admin.rooms.index'"
+            :active="$page.props.currentRouteName === 'admin.rooms.index'"
           >
             Rooms
           </jet-nav-sub>
           <jet-nav-sub
             href="/admin/users"
-            :active="$page.currentRouteName === 'admin.users.index'"
+            :active="$page.props.currentRouteName === 'admin.users.index'"
           >
             Users
           </jet-nav-sub>
           <jet-nav-sub
             href="/admin/roles"
-            :active="$page.currentRouteName === 'admin.roles.index'"
+            :active="$page.props.currentRouteName === 'admin.roles.index'"
           >
             Roles
           </jet-nav-sub>
           <jet-nav-sub
             href="/admin/settings"
-            :active="$page.currentRouteName === 'admin.settings.index'"
+            :active="$page.props.currentRouteName === 'admin.settings.index'"
           >
             Settings
           </jet-nav-sub>
@@ -216,7 +216,7 @@ export default {
       })
     },
     showAdminSubnav() {
-      switch (this.$page.currentRouteName) {
+      switch (this.$page.props.currentRouteName) {
         case 'admin.users.index':
         case 'admin.rooms.index':
         case 'admin.roles.index':
@@ -227,7 +227,7 @@ export default {
       }
     },
     showBookingSubnav() {
-      switch (this.$page.currentRouteName) {
+      switch (this.$page.props.currentRouteName) {
         case 'bookings.index':
         case 'bookings.create':
         case 'bookings.list':

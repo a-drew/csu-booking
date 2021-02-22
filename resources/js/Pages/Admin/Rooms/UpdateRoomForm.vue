@@ -369,8 +369,8 @@ export default {
 
     methods: {
         closeModal() {
-            if (this.$page && this.$page.errorBags.updateRoom) {
-                delete this.$page.errorBags.updateRoom;
+            if (this.$page && this.$page.props.errorBags.updateRoom) {
+                delete this.$page.props.errorBags.updateRoom;
             }
             this.$emit("close");
         },
