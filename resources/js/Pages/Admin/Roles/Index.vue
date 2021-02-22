@@ -1,91 +1,14 @@
 <template>
     <app-layout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Roles
-            </h2>
-        </template>
-
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <create-role-form :availablePermissions="permissions"></create-role-form>
-
-            <div v-if="roles.length > 0">
-                <jet-section-border/>
-
-                <!-- Manage Application Roles -->
-                <div class="mt-10 sm:mt-0">
-                    <jet-action-section>
-                        <template #title>
-                            Manage Roles
-                        </template>
-
-                        <template #description>
-                            You may delete any of your existing roles if they are no longer needed.
-                        </template>
-
-                        <!-- Roles List -->
-                        <template #content>
-                            <div class="space-y-6">
-                                <div v-for="role in roles" class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <div class="text-md mr-3">
-                                            {{ role.name }}
-                                        </div>
-                                        <div class="text-sm text-gray-400">
-                                            {{ role.guard_name }}
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center">
-                                        <div v-if="role.created_at" class="text-sm text-gray-400">
-                                            Created {{ $fromNow(role.created_at) }}
-
-                                        </div>
-
-                                        <button class="cursor-pointer ml-6 text-sm text-blue-800 focus:outline-none"
-                                                @click="roleBeingUpdated = role">
-                                            Update
-                                        </button>
-
-                                        <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none"
-                                                @click="roleBeingDeleted = role">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </jet-action-section>
+        <div class="flex flex-col lg:flex-row md:mx-auto md:w-11/12 ">
+            <div class="m-4 w-1/4 pt-12 pb-48">
+                <create-role-form :availablePermissions="permissions" />
+            </div>
+            <div v-if="roles.length > 0" class="m-4 w-3/4">
+                <div class="py-12">
+                    <role-table :roles="roles" :permissions="permissions"/>
                 </div>
             </div>
-
-            <!-- Assign Permissions to Role Modal -->
-            <update-role-form :permissions="permissions"
-                              :role="roleBeingUpdated"
-                              @close="roleBeingUpdated = null"></update-role-form>
-
-            <!-- Delete Role Confirmation Modal -->
-            <jet-confirmation-modal :show="roleBeingDeleted" @close="roleBeingDeleted = null">
-                <template #title>
-                    Delete Role
-                </template>
-
-                <template #content>
-                    Are you sure you would like to delete this role?
-                </template>
-
-                <template #footer>
-                    <jet-secondary-button @click.native="roleBeingDeleted = null">
-                        Nevermind
-                    </jet-secondary-button>
-
-                    <jet-danger-button class="ml-2" @click.native="deleteRole"
-                                       :class="{ 'opacity-25': deleteRoleForm.processing }"
-                                       :disabled="deleteRoleForm.processing">
-                        Delete
-                    </jet-danger-button>
-                </template>
-            </jet-confirmation-modal>
         </div>
     </app-layout>
 </template>
@@ -100,6 +23,7 @@
     import JetButton from '@src/Jetstream/Button'
     import CreateRoleForm from "./CreateRoleForm";
     import UpdateRoleForm from "./UpdateRoleForm";
+    import RoleTable from '@src/Components/Tables/RoleTable';
 
     export default {
         props: {
@@ -127,6 +51,7 @@
             JetConfirmationModal,
             CreateRoleForm,
             UpdateRoleForm,
+            RoleTable
         },
 
         data() {
@@ -146,6 +71,11 @@
                     this.roleBeingDeleted = null
                 })
             },
+
+            fromNow(timestamp) {
+                return moment(timestamp).local().fromNow()
+            },
+
         }
     }
 </script>
