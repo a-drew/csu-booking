@@ -10,12 +10,16 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-const config = require('./webpack.config')
 
-mix.webpackConfig(config)
-    .js('resources/js/app.js', 'public/js')
+mix.webpackConfig(require('./webpack.config'))
+    .js('resources/js/app.js', 'public/js').vue()
     .sourceMaps(!mix.inProduction(), 'source-map')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
+        require('autoprefixer'),
     ]);
+
+//if (mix.inProduction()) {
+//    mix.version();
+//}

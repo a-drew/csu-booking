@@ -1,12 +1,11 @@
-const path = require('path')
-const webpack = require('webpack')
+const path = require('path');
 
 module.exports = {
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
-            '@src': path.resolve(__dirname, './resources/js'),
-            '@test': path.resolve(__dirname, './tests/Javascript')
+            '@src': path.resolve('resources/js'),
+            '@test': path.resolve('tests/Javascript')
         }
     },
 }
