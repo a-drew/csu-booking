@@ -34,11 +34,9 @@ import JetActionMessage from '@src/Jetstream/ActionMessage'
 import JetFormSection from '@src/Jetstream/FormSection'
 import JetInputError from '@src/Jetstream/InputError'
 import JetLabel from '@src/Jetstream/Label'
-import AppName from "@src/Pages/Admin/Settings/AppName";
 
 export default {
     components: {
-        AppName,
         JetButton,
         JetInput,
         JetFormSection,

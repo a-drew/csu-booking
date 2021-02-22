@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import JetSectionTitle from '../Jetstream/SectionTitle'
+    import JetSectionTitle from '@src/Jetstream/SectionTitle'
 
     export default {
         components: {

@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import JetSectionBorder from '@src/Jetstream/SectionBorder'
 import AppLayout from '@src/Layouts/AppLayout';
+import JetSectionBorder from '@src/Jetstream/SectionBorder'
 import AppName from "@src/Pages/Admin/Settings/AppName";
 import AppLogo from "@src/Pages/Admin/Settings/AppLogo";
 
