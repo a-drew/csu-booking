@@ -20,11 +20,11 @@ class BookingResource extends JsonResource
             'status' => ucfirst($this->status),
             'created_diff' => $this->created_at->diffForHumans(),
             'updated_diff' => $this->updated_at->diffForHumans(),
-            // todo: remove this when we update download to store reference to files, not just folder
-            'reference' => empty($this->reference) ? [
+            // remove this when we update download to store reference to files, not just folder
+            'reference' => empty($this->reference) ? [[
                 'name' => 'thing.pdf',
                 'link' => '/storage/6_1611766740_reference/a2.pdf',
-            ] : $this->reference,
+            ]] : $this->reference,
             'reservations' => $this->reservations->map(function ($r) {
                 return [
                     'room' => $r->room,

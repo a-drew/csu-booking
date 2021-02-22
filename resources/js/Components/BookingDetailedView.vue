@@ -40,8 +40,13 @@
               Request Status
             </dt>
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <!-- TODO: make fancy status pill -->
-              {{ booking.status }}
+              <span class="bg-indigo-500 rounded-full py-2 px-6 text-white text-center font-bold"
+                    :class="{ 'bg-green-700': (booking.status === 'Approved'),
+                              'bg-red-700': (booking.status === 'Refused'),
+                              'bg-yellow-500': (booking.status === 'Review'),
+              }">
+                {{ booking.status }}
+              </span>
             </dd>
           </div>
         </dl>
@@ -460,7 +465,7 @@
                       </svg>
                       <span>Start:</span>
                     </div>
-                    <span class="ml-2 flex-1 w-0 truncate">
+                    <span class="ml-2 flex-1 w-0">
                       {{ reservation.start_time }}
                     </span>
 
@@ -470,7 +475,7 @@
                       </svg>
                       <span>End:</span>
                     </div>
-                    <span class="ml-2 flex-1 w-0 truncate">
+                    <span class="ml-2 flex-1 w-0">
                       {{ reservation.end_time }}
                     </span>
                   </div>
