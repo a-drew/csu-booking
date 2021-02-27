@@ -1,28 +1,22 @@
 import {beforeEach, jest, test} from "@jest/globals";
-
-jest.mock('laravel-jetstream')
-
 import {createLocalVue, mount, shallowMount} from '@vue/test-utils'
-import {InertiaApp} from '@inertiajs/inertia-vue'
-import {InertiaForm} from 'laravel-jetstream'
+import {plugin as Inertia} from '@inertiajs/inertia-vue'
+import form from "@inertiajs/inertia-vue/src/form"
+jest.mock('@inertiajs/inertia-vue/src/form')
+
 import Index from '@src/Pages/Admin/Users/Index'
-import {InertiaFormMock} from "@test/__mocks__/laravel-jetstream";
-import moment from "moment";
+
 
 let localVue
 
 beforeEach(() => {
-    InertiaFormMock.error.mockClear()
-    InertiaFormMock.post.mockClear()
-    InertiaFormMock.delete.mockClear()
-
-    localVue = createLocalVue()
-    localVue.use(InertiaApp)
-    localVue.use(InertiaForm)
+  form.mockClear();
+  localVue = createLocalVue()
+  localVue.use(Inertia)
 
 });
 
 test('should mount without crashing', () => {
-    const wrapper = shallowMount(Index, {localVue})
+  const wrapper = shallowMount(Index, {localVue})
 })
 
