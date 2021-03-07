@@ -77,7 +77,7 @@ export default {
 
       this.form.post("/bookings/" + this.booking_request_id + "/assign", {
         preserveState: true
-      }).then(() => {});
+      });
     }
   },
 }

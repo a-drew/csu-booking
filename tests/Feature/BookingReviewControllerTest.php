@@ -43,7 +43,7 @@ class BookingReviewControllerTest extends TestCase
         $user = User::factory()->make();
         $user->givePermissionTo('bookings.approve')->save();
 
-        $booking = BookingRequest::factory()->create();
+        $booking = BookingRequest::factory()->hasReviewers(1)->create();
         $room = Room::factory()->create();
         $booking->rooms()->attach($room->id, [
             'created_at' => now(),
@@ -250,5 +250,26 @@ class BookingReviewControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonCount($users->count());
         $response->assertJsonStructure([[ 'id', 'name', 'email', 'profile_photo_url' ]]);
+    }
+
+
+    /**
+     * @test
+     */
+    public function user_model_belongs_to_many_reviews()
+    {
+        // setup fresh user & booking
+        $booking = BookingRequest::factory()->hasReviewers(1)->hasReservations(1)->create();
+
+        // attach user
+        $reviewer = User::factory()->create();
+        $booking->reviewers()->attach($reviewer->id);
+
+        // verify reviewer can see the booking but only as a reviewer
+        $this->assertEquals(1, $reviewer->bookingsToReview()->count());
+        $this->assertContains($booking->id, $reviewer->bookingsToReview()->pluck('id'));
+        $this->assertNotContains($booking->id, $reviewer->bookingRequests()->pluck('id'));
+
+
     }
 }

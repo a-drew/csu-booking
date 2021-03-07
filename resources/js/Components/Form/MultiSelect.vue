@@ -66,7 +66,7 @@ export default {
   props: {
     selectedOnInit: {
       type: Object,
-      default: () => {},
+      default: () => {return {}},
     },
     options: {
       type: Object,
