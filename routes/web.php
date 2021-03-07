@@ -178,6 +178,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('review', [BookingReviewController::class, 'index'])->name('index');
             Route::get('{booking}/review', [BookingReviewController::class, 'show'])->name('show');
             Route::post('{booking}/review', [BookingReviewController::class, 'review'])->name('update');
+            Route::post('{booking}/assign', [BookingReviewController::class, 'assign'])->name('assign');
         });
     });
 
