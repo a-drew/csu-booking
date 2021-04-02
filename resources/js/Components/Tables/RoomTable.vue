@@ -114,7 +114,7 @@
               &blacktriangledown;
             </span>
           </th>
-          <th>Actions</th>
+          <th id="id_room_action">Actions</th>
         </tr>
       </thead>
       <tbody>
