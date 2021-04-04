@@ -40,8 +40,8 @@ class BookingRequestControllerTest extends TestCase
      */
     public function user_can_view_booking_search()
     {
-        $response = $this->get(route('bookings.search'));
-        $response->assertRedirect();
+        $response = $this->actingAs($this->createUserWithPermissions(['bookings.create']))->get(route('bookings.search'));
+        $response->assertOk();
         $response->assertSessionHasNoErrors();
     }
 
@@ -50,8 +50,8 @@ class BookingRequestControllerTest extends TestCase
      */
     public function user_can_view_booking_index()
     {
-        $response = $this->get(route('bookings.index'));
-        $response->assertRedirect();
+        $response = $this->actingAs($this->createUserWithPermissions(['bookings.create']))->get(route('bookings.index'));
+        $response->assertOk();
         $response->assertSessionHasNoErrors();
     }
 
@@ -60,8 +60,8 @@ class BookingRequestControllerTest extends TestCase
      */
     public function user_can_view_booking_create()
     {
-        $response = $this->get(route('bookings.create'));
-        $response->assertRedirect();
+        $response = $this->actingAs($this->createUserWithPermissions(['bookings.create']))->get(route('bookings.create'));
+        $response->assertRedirect(); // redirect to search
         $response->assertSessionHasNoErrors();
     }
 
