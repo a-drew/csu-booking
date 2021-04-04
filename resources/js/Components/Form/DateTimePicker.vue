@@ -1,5 +1,5 @@
 <template>
-  <ctk-date-time-picker v-model="proxyValue" :minute-interval="minuteInterval" :inline="inline" :format="format">
+  <ctk-date-time-picker v-model="proxyValue" :minute-interval="minuteInterval" :format="format">
     <slot></slot>
   </ctk-date-time-picker>
 </template>
@@ -19,9 +19,6 @@ export default {
     },
     minuteInterval: {
       default: 15,
-    },
-    inline: {
-      default: false,
     },
     format: {
       default: "YYYY-MM-DD HH:mm",

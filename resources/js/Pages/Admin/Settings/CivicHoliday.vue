@@ -19,16 +19,14 @@
           <date-time-picker id="start_date" name="start_date" class="mt-1 block w-full"
                             v-model="form.start_date"
                             :value="form.start_date"
-                            :inline="true"
-                            autofocus/>
+          />
           <jet-input-error :message="form.error('start_date')" class="mt-2"/>
         </div>
         <jet-label for="end_date" value="End date"/>
         <date-time-picker id="end_date" name="end_date" class="mt-1 block w-full"
                           v-model="form.end_date"
                           :value="form.end_date"
-                          :inline="true"
-                          autofocus/>
+        />
         <jet-input-error :message="form.error('end_date')" class="mt-2"/>
       </div>
     </template>
