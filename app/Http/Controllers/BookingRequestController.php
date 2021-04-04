@@ -59,12 +59,12 @@ class BookingRequestController extends Controller
       'reservations.*.start_time' => [
         'required',
         'date',
-        'date_format:Y-m-d\TH:i'
+        'date_format:Y-m-d H:i'
       ],
       'reservations.*.end_time' => [
         'required',
         'date',
-        'date_format:Y-m-d\TH:i',
+        'date_format:Y-m-d H:i',
       ],
       'reservations.*.duration' => [
         'required',
