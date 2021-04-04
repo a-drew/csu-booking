@@ -59,12 +59,10 @@ class BookingRequestController extends Controller
       'reservations.*.start_time' => [
         'required',
         'date',
-        'date_format:Y-m-d H:i'
       ],
       'reservations.*.end_time' => [
         'required',
         'date',
-        'date_format:Y-m-d H:i',
       ],
       'reservations.*.duration' => [
         'required',
@@ -314,8 +312,8 @@ class BookingRequestController extends Controller
         // filter the ones provided from request
         $request->validate([
             'status_list.*' => ['boolean'],
-            'date_range_start' => ['string'],
-            'date_range_end' => ['string'],
+            'date_range_start' => ['date'],
+            'date_range_end' => ['date'],
             'data_reviewers' => ['array']
         ]);
 

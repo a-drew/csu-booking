@@ -35,7 +35,7 @@ class SettingsPageTest extends DuskTestCase
         ->assertSee('Settings')
         ->assertSee('Application Name')
         ->type('app_name', 'New Name')
-        ->pressAndWaitFor('UPDATE APPLICATION NAME', 3)
+        ->pressAndWaitFor('update-app-name', 3)
         ->refresh()->pause(3000)
         ->assertSourceHas('<title>New Name</title>')
         ->assertSee('New Name');
