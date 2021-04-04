@@ -15,6 +15,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -373,9 +374,10 @@ class BookingRequestController extends Controller
             $query = $query->where('status', $request->selectStatus);
         }
 
-        if ($request->dateCheck){
+        if ($request->dateCheck) {
             $query = $query->whereHas('reservations', function($q) use ($request) {
-                $q->whereDate('start_time', $request->dateCheck)->orWhereDate('end_time', $request->dateCheck);
+                $date = Carbon::parse($request->dateCheck);
+                $q->whereDate('start_time', $date)->orWhereDate('end_time', $date);
             });
         }
 
