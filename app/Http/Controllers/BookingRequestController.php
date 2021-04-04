@@ -336,11 +336,11 @@ class BookingRequestController extends Controller
 
 
         if($request->date_range_start){
-            $query->where('created_at', '<', $request->date_range_start);
+            $query->where('created_at', '>', $request->date_range_start);
         }
 
         if($request->date_range_end){
-            $query->where('created_at', '>', $request->date_range_end);
+            $query->where('created_at', '<', $request->date_range_end);
         }
 
         if($request->data_reviewers){
@@ -376,9 +376,8 @@ class BookingRequestController extends Controller
         }
 
         if ($request->dateCheck){
-            $query = $query->whereHas('reservations', function($q) use ($request)
-            {
-                $q->whereDate('start_time', $request->dateCheck);
+            $query = $query->whereHas('reservations', function($q) use ($request) {
+                $q->whereDate('start_time', $request->dateCheck)->orWhereDate('end_time', $request->dateCheck);
             });
         }
 
