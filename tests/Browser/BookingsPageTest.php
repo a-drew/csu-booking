@@ -47,7 +47,7 @@ class BookingsPageTest extends DuskTestCase
         });
     }
 
-    public function testClickOnApprovedBooking()
+    public function testClickOnApprovedBookingLockedBooking()
     {
         $bookings = BookingRequest::factory()
             ->count(1)
@@ -64,7 +64,7 @@ class BookingsPageTest extends DuskTestCase
         });
     }
 
-    public function testClickOnDeniedBooking()
+    public function testClickOnDeniedBookingLockedBooking()
     {
         $bookings = BookingRequest::factory()
             ->count(1)
@@ -81,7 +81,7 @@ class BookingsPageTest extends DuskTestCase
         });
     }
 
-    public function testClickOnReviewBooking()
+    public function testClickOnReviewBookingLockedBooking()
     {
         $bookings = BookingRequest::factory()
             ->count(1)
@@ -98,7 +98,7 @@ class BookingsPageTest extends DuskTestCase
         });
     }
 
-    public function testUserCanViewABookingRequestStatus()
+    public function testUserCanTrackBookingrequest()
     {
         $bookings = BookingRequest::factory()
             ->count(1)
