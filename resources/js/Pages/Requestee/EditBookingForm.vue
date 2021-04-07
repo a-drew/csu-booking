@@ -417,8 +417,12 @@
                         <!-- Upload File Storage -->
                         <div class="col-span-6">
                             <jet-label for="files" value="Document Storage"/>
-                            <app-sortable-upload id="files" accept="application/pdf, application/msword"
-                                                 @change="uploadedFiles($event)"/>
+                            <app-sortable-upload 
+                                id="files" 
+                                accept="application/pdf, application/msword" 
+                                :booking="booking"
+                                @change="uploadedFiles($event)"
+                            />
                             <jet-input-error :message="form.error('files')" class="mt-2"/>
                         </div>
 
@@ -524,12 +528,16 @@ export default {
         },
         bookings_event_description: {
           type: Object,
+        },
+        storedFiles: {
+          type: Array,
         }
     },
 
     data() {
         return {
             accept_terms: false,
+            dataStoredFiles: [],
             form: this.$inertia.form({
                 '_method': 'PUT',
                 onsite_contact: {},
@@ -594,7 +602,7 @@ export default {
     },
 
     mounted() {
-        this.updateForm(this.booking)
+        this.updateForm(this.booking);
     },
 
 
