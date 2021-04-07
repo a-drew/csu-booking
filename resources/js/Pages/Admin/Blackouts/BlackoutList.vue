@@ -22,7 +22,7 @@
         <!--Update Blackout Form -->
         <jet-confirmation-modal :show="blackoutBeingUpdated != null" @close="blackoutBeingUpdated = null">
             <template #title>
-                Update Blackout: {{ blackoutBeingUpdated.name}}
+                Update Blackout: {{ blackoutBeingUpdated != null && blackoutBeingUpdated.name }}
             </template>
 
             <template #content>
