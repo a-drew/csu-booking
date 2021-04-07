@@ -60,7 +60,7 @@ class SearchPageTest extends DuskTestCase
             })->pause(500);
 
             $browser->click("#createBookingRequest")->pause(5000)
-                ->assertSee("later than 30 days");
+                ->assertSee("earlier than 30 days");
 
 
             $browser->within( new DateTimePicker($startId), function($browser) {
@@ -72,7 +72,7 @@ class SearchPageTest extends DuskTestCase
             })->pause(500);
 
             $browser->click("#createBookingRequest")->pause(5000)
-                ->assertSee("sooner than 31 days");
+                ->assertSee("later than 31 days");
         });
     }
 
@@ -112,7 +112,7 @@ class SearchPageTest extends DuskTestCase
             })->pause(500);
 
             $browser->click("#createBookingRequest")->pause(5000)
-              ->assertSee("later than 2 days");
+              ->assertSee("earlier than 2 days");
 
             $browser->within( new DateTimePicker($startId), function($browser) {
                 $browser->setDatetime(10,13);
@@ -123,7 +123,7 @@ class SearchPageTest extends DuskTestCase
             })->pause(500);
 
             $browser->click("#createBookingRequest")->pause(5000)
-              ->assertSee("sooner than 5 days");
+              ->assertSee("later than 5 days");
 
         });
     }
