@@ -23,9 +23,10 @@ use Inertia\ResponseFactory;
 class RoomController extends Controller
 {
 
-    const ROOM_TYPES = 'rooms.types';
-    const BUILDING_NAMES = 'rooms.buildings';
-    const MAX_255 = 'max:255';
+    private const ROOM_TYPES = 'rooms.types';
+    private const BUILDING_NAMES = 'rooms.buildings';
+    private const MAX_255 = 'max:255';
+    private const ROOM_PAGINATOR_AMOUNT = 10;
 
     /**
      * Display a listing of the resource.
@@ -39,6 +40,7 @@ class RoomController extends Controller
             'roles' => Role::all(),
             'availableRoomTypes'=> config(self::ROOM_TYPES),
             'availableBuildings' => config(self::BUILDING_NAMES),
+            'paginator' => Room::with('restrictions', 'availabilities', 'blackouts', 'dateRestrictions')->paginate(self::ROOM_PAGINATOR_AMOUNT)
         ]);
     }
 

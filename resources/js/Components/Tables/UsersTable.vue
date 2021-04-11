@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr :id="'user-row-'+user.id" v-for="user in Users" :key="user.id">
+      <tr :id="'user-row-'+user.id" v-for="user in paginator.data" :key="user.id">
         <td class="text-center">{{ user.name }}</td>
         <td class="text-center">{{ user.email }}</td>
         <td class="text-center">
@@ -19,15 +19,21 @@
       </tr>
       </tbody>
     </table>
+    <div class="pt-3 px-2">
+      <Paginator :paginator="paginator" />
+    </div>
   </div>
+
 </template>
 <script>
 
-import JetInput from '@src/Jetstream/Input'
+import JetInput from '@src/Jetstream/Input';
+import Paginator from "@src/Components/Paginator";
 
 export default {
   components: {
     JetInput,
+    Paginator
   },
 
   name: "userTable",
@@ -37,6 +43,7 @@ export default {
       default: [],
       required: true
     },
+    paginator: Object
   }
 };
 </script>

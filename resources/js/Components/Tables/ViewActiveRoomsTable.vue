@@ -206,6 +206,9 @@
           </jet-button>
       </template>
     </jet-confirmation-modal>
+    <div class="pt-3 px-2">
+      <Paginator :paginator="paginator" />
+    </div>
   </div>
 </template>
 
@@ -225,6 +228,7 @@ import UpdateRoomForm from "@src/Pages/Admin/Rooms/UpdateRoomForm";
 import JetDropdown from "@src/Jetstream/Dropdown";
 import JetDropdownLink from "@src/Jetstream/DropdownLink";
 import AvailabilitiesModal from "@src/Components/AvailabilitiesModal";
+import Paginator from "@src/Components/Paginator";
 
 export default {
   name: "RoomTable",
@@ -251,6 +255,7 @@ export default {
       type: Array,
       required: true
     },
+    paginator: Object
   },
   components: {
     AvailabilitiesModal,
@@ -266,7 +271,8 @@ export default {
         JetInputError,
         UpdateRoomForm,
         JetDropdown,
-        JetDropdownLink
+        JetDropdownLink,
+        Paginator
   },
   data() {
       return {
@@ -363,7 +369,7 @@ export default {
 
   computed: {
     filterRooms() {
-        return this.rooms.filter(room => {
+        return this.paginator.data.filter(room => {
 
             const building = room.building.toLowerCase();
             const status = room.status.toLowerCase();

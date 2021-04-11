@@ -39,6 +39,8 @@ class BookingRequestController extends Controller
 
   private const DATE_FORMAT = "F j, Y, g:i a";
 
+  private const ROOM_PAGINATOR_AMOUNT = 10;
+
   /**
    * Display a listing of the resource.
    *
@@ -50,6 +52,7 @@ class BookingRequestController extends Controller
         return inertia('Admin/BookingRequests/Index', [
             'booking_requests' => BookingRequest::with('requester', 'reservations', $this->reservationRoom)->get(),
             'rooms' => Room::hideUserRestrictions($request->user())->with('availabilities', 'blackouts')->get(),
+            'paginator' => Room::hideUserRestrictions($request->user())->with('availabilities', 'blackouts')->paginate(self::ROOM_PAGINATOR_AMOUNT)
         ]);
     }
 
@@ -297,8 +300,10 @@ class BookingRequestController extends Controller
                     unset($attribute);
                     $user =  $request->user();
                     $room = Room::query()->findOrFail($request->room_id);
+                    $room->minimumReservationTime($value['start_time'], $value['end_time'], $fail);
                     $room->verifyDatesAreWithinRoomRestrictionsValidation($value['start_time'], $fail, $user);//
                     $room->verifyDatetimesAreWithinAvailabilitiesValidation($value['start_time'], $value['end_time'], $fail);//
+                    $room->verifyRoomIsNotBlackedOutValidation($value['start_time'], $value['end_time'], $fail);//
                     $room->verifyRoomIsFreeValidation($value['start_time'], $value['end_time'], $fail);
                     if (!$request->user()->canMakeAnotherBookingRequest($value['start_time'])) {
                         $fail('You cannot have more than ' .

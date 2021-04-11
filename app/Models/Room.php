@@ -150,9 +150,9 @@ class Room extends Model
         $max_days = $special_max ?? $this->max_days_advance;
 
         if (Carbon::today()->diffInDays($startTime) < $min_days) {
-            $fail('You can not book this room later than ' . $min_days . ' days in advance');
+            $fail('You can not book this room earlier than ' . $min_days . ' days in advance');
         } elseif (Carbon::today()->diffInDays($startTime) > $max_days) {
-            $fail('You can not book this room sooner than ' . $max_days . ' days in advance');
+            $fail('You can not book this room later than ' . $max_days . ' days in advance');
         }
     }
 
@@ -178,12 +178,34 @@ class Room extends Model
     });
   }
 
+  private function verifyRoomBlackoutQuery($startDate, $endDate)
+  {
+    $query = $this->blackouts();
+
+    return $query->where(function ($query) use ($startDate, $endDate) {
+      $query->whereBetween('start_time', [$startDate, $endDate])
+        ->orWhereBetween('end_time', [$startDate, $endDate])
+        ->orWhere(function ($query) use ($startDate, $endDate) {
+          $query->where('start_time', '<', $startDate)->where('end_time', '>', $endDate);
+        });
+    });
+  }
+
   public function verifyRoomIsFreeValidation($startDate, $endDate, $fail, $reservation = null)
   {
     $conflict = $this->verifyRoomQuery($startDate, $endDate, $reservation)->first();
 
     if ($conflict) {
       $fail('The room cannot be booked at this time - Conflicting schedule');
+    }
+  }
+
+  public function verifyRoomIsNotBlackedOutValidation($startDate, $endDate, $fail)
+  {
+    $conflict = $this->verifyRoomBlackoutQuery($startDate, $endDate)->first();
+
+    if ($conflict) {
+      $fail('The room cannot be booked at this time - Blocked schedule');
     }
   }
 
@@ -214,5 +236,17 @@ class Room extends Model
       $startTime < $availabilityStart->opening_hours ||
       $endTime > $availabilityEnd->closing_hours;
   }
+
+
+
+  public function minimumReservationTime($startDate, $endDate, $fail)
+  {
+      $startTime = Carbon::parse($startDate);
+      $endTime = Carbon::parse($endDate);
+      if($endTime->diffInMinutes($startTime) < 30){
+        $fail('The room cannot be booked for less than 30 min');
+      }
+  }
+
 
 }

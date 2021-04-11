@@ -169,7 +169,7 @@
 
 
     <div v-if="!listViewSelected">
-      <CalendarViewTable/>
+      <CalendarViewTable dusk="calendar-view-table" />
     </div>
 
     <CreateBookingRequestModal
@@ -410,6 +410,11 @@
               </jet-secondary-button>
           </template>
       </jet-dialog-modal>
+
+    <div class="pt-3 px-2">
+      <Paginator :paginator="paginator" />
+    </div>
+
   </div>
 </template>
 <script>
@@ -427,6 +432,7 @@ import JetInputError from "@src/Jetstream/InputError";
 import AvailabilitiesModal from "@src/Components/AvailabilitiesModal";
 import CalendarViewTable from "@src/Components/Tables/CalendarViewTable";
 import DateTimePicker from "@src/Components/Form/DateTimePicker";
+import Paginator from "@src/Components/Paginator";
 
 export default {
   name: "RoomTable",
@@ -436,6 +442,7 @@ export default {
       default: [],
       required: true
     },
+    paginator: Object
   },
   components: {
       DateTimePicker,
@@ -450,7 +457,8 @@ export default {
       JetLabel,
       JetInputError,
       AvailabilitiesModal,
-      CalendarViewTable
+      CalendarViewTable,
+      Paginator
   },
   data() {
       return {
@@ -509,7 +517,7 @@ export default {
           }
         },
         sortedRooms:function() {
-          return this.rooms.sort((a,b) => {
+          return this.paginator.data.sort((a,b) => {
             let modifier = 1;
             if(this.currentSortDir === 'desc') modifier = -1;
             if(this.currentSort.includes('attributes')){

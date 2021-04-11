@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- Manage Application Users -->
-    <user-table :users="users">
+    <user-table
+      :users="users"
+      :paginator="paginator"
+    >
       <template v-slot:user="{ user }">
         <div class="flex items-center">
 
@@ -127,7 +130,8 @@ export default {
       default: function () {
         return []
       },
-    }
+    },
+    paginator: Object
   },
 
   components: {

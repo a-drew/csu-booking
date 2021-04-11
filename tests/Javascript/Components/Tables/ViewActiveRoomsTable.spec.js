@@ -24,23 +24,33 @@ afterEach(() => {
   localVue = null
 })
 
+let activeRoomsPropsData = {
+  rooms: [{
+    id: 1,
+    name: "name",
+    building: "building",
+    number: "1",
+    floor: 1,
+    status: "available"
+  }],
+  availableRoomTypes: ['test'],
+  paginator:{
+    data: [{
+      id: 1,
+      name: "name",
+      building: "building",
+      number: "1",
+      floor: 1,
+      status: "available"
+    }]
+  }
+}
 
 test('should mount without crashing', () => {
 
   const wrapper = shallowMount(ViewActiveRoomsTable, {
     localVue,
-    propsData: {
-        rooms: [{
-            id: 1,
-            name: "name",
-            building: "building",
-            number: "1",
-            floor: 1,
-            status: "available"
-        }],
-
-        availableRoomTypes: ['test']
-    }
+    propsData: activeRoomsPropsData
   })
 
 
@@ -62,18 +72,7 @@ test('deleteRoom()', () => {
 
     const wrapper = shallowMount(ViewActiveRoomsTable, {
         localVue,
-        propsData: {
-            rooms: [{
-                id: 1,
-                name: "name",
-                building: "building",
-                number: "1",
-                floor: 1,
-                status: "available"
-            }],
-
-            availableRoomTypes: ['test']
-        },
+        propsData: activeRoomsPropsData,
         data() {
             return {
                 roomBeingDeleted: mockRoomBeingDeleted
@@ -97,18 +96,7 @@ test('openUpdateRestrictionsModal', () => {
     }
     const wrapper = shallowMount(ViewActiveRoomsTable, {
         localVue,
-        propsData: {
-            rooms: [{
-                id: 1,
-                name: "name",
-                building: "building",
-                number: "1",
-                floor: 1,
-                status: "available"
-            }],
-
-            availableRoomTypes: ['test']
-        }
+        propsData: activeRoomsPropsData
     })
     wrapper.vm.openEditRestrictionsModal(room)
     expect(wrapper.vm.$data.roomRestBeingUpdated).toBe(room);
@@ -129,18 +117,7 @@ test('updateRoomRestrictions()', () => {
 
     const wrapper = shallowMount(ViewActiveRoomsTable, {
         localVue,
-        propsData: {
-            rooms: [{
-                id: 1,
-                name: "name",
-                building: "building",
-                number: "1",
-                floor: 1,
-                status: "available"
-            }],
-
-            availableRoomTypes: ['test']
-        },
+        propsData: activeRoomsPropsData,
         data() {
             return {
                 roomRestBeingUpdated: mockRoomResBeingUpdated
@@ -162,17 +139,7 @@ test('should filter properly', () => {
 
   const wrapper = shallowMount(ViewActiveRoomsTable, {
     localVue,
-    propsData: {
-        rooms: [{
-            id: 1,
-            name: "name",
-            building: "building",
-            number: "1",
-            floor: 1,
-            status: "available"
-        }],
-        availableRoomTypes: ['test']
-    }
+    propsData: activeRoomsPropsData
   })
 
   wrapper.setData({ filter: '' })
@@ -198,20 +165,11 @@ test('openUpdateDateRestrictionsModal', () => {
     id: 10,
     date_restrictions: []
   }
+  let localProps = activeRoomsPropsData;
+  localProps.roles = ["role1", "role2"];
   const wrapper = shallowMount(ViewActiveRoomsTable, {
     localVue,
-    propsData: {
-      rooms: [{
-        id: 1,
-        name: "name",
-        building: "building",
-        number: "1",
-        floor: 1,
-        status: "available"
-      }],
-      roles :  ["role1", "role2"],
-      availableRoomTypes: ['test']
-    }
+    propsData: localProps
   })
   wrapper.vm.openEditDateRestrictionsModal(mockRoomDateResBeingUpdated)
   expect(wrapper.vm.$data.roomDateRestrictionsBeingUpdated).toBe(mockRoomDateResBeingUpdated);
@@ -232,18 +190,7 @@ test('updateRoomDateRestrictions()', () => {
 
   const wrapper = shallowMount(ViewActiveRoomsTable, {
     localVue,
-    propsData: {
-      rooms: [{
-        id: 1,
-        name: "name",
-        building: "building",
-        number: "1",
-        floor: 1,
-        status: "available"
-      }],
-
-      availableRoomTypes: ['test']
-    },
+    propsData: activeRoomsPropsData,
     data() {
       return {
         roomDateRestrictionsBeingUpdated: mockRoomDateResBeingUpdated

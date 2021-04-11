@@ -5,9 +5,14 @@
         <create-room-form :available-room-types="availableRoomTypes"
                           :available-buildings="availableBuildings"/>
       </div>
-      <div v-if="rooms.length > 0" class="px-3 ">
-        <ViewActiveRoomsTable :rooms="rooms" :available-room-types="availableRoomTypes"
-                              :available-buildings="availableBuildings" :roles="roles"/>
+      <div v-if="rooms.length > 0" class="px-3 w-full">
+        <ViewActiveRoomsTable
+          :rooms="rooms"
+          :available-room-types="availableRoomTypes"
+          :available-buildings="availableBuildings"
+          :roles="roles"
+          :paginator="paginator"
+        />
       </div>
     </div>
   </app-layout>
@@ -18,6 +23,7 @@ import JetSectionBorder from '@src/Jetstream/SectionBorder'
 import CreateRoomForm from './CreateRoomForm';
 import AppLayout from '@src/Layouts/AppLayout';
 import ViewActiveRoomsTable from '@src/Components/Tables/ViewActiveRoomsTable';
+import Paginator from "@src/Components/Paginator";
 
 export default {
   components: {
@@ -25,6 +31,7 @@ export default {
     AppLayout,
     JetSectionBorder,
     ViewActiveRoomsTable,
+    Paginator
   },
   props: {
     rooms: {
@@ -47,6 +54,7 @@ export default {
       type: Array,
       required: true
     },
+    paginator: Object
   }
 }
 </script>

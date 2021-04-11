@@ -166,22 +166,18 @@ class ReservationsController extends Controller
     {
         $request->validate(['date' => ['date']]);
 
-        $date = $request->get('date') ?? today();
+        $date = Carbon::parse($request->get('date') ?? today());
 
         // callback that filters reservations by date
         $callback = function ($query) use ($date) {
-            if ($date !== null) {
-                $query->whereDate('start_time', $date)->orWhereDate('end_time', $date);
-            }
+            $query->whereDate('start_time', $date)->orWhereDate('end_time', $date);
         };
 
         $rooms = Room::with([
             'reservations' => $callback,
             'blackouts' => $callback,
             'availabilities' => function($query) use ($date) {
-                if ($date !== null) {
-                    $query->where('weekday', Carbon::parse($date)->englishDayOfWeek);
-                }
+                $query->where('weekday', $date->englishDayOfWeek);
             }
         ])->get();
 
@@ -209,6 +205,7 @@ class ReservationsController extends Controller
                     $room->verifyDatetimesAreWithinAvailabilitiesValidation($value['start_time'], $value['end_time'],
                         $fail);
                     $room->verifyRoomIsFreeValidation($value['start_time'], $value['end_time'], $fail, $reservation);
+                    $room->minimumReservationTime($value['start_time'], $value['end_time'], $fail);
 
                     if (!$user->canMakeAnotherBookingRequest($value['start_time'])) {
                         $fail($attribute.' Cannot make more than '.

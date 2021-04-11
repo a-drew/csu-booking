@@ -6,8 +6,12 @@
             </div>
             <div v-if="users.length > 0" class="m-4 w-3/4">
                 <div class="mx-24 mt-16">
-                    <users-list :users="users" :roles="roles" class="w-full"/>
-                </div>               
+                    <users-list
+                      :users="users"
+                      :roles="roles"
+                      :paginator="paginator"
+                      class="w-full"/>
+                </div>
             </div>
         </div>
 
@@ -41,7 +45,8 @@ export default {
             default: function () {
                 return []
             },
-        }
+        },
+        paginator: Object
     }
 }
 </script>

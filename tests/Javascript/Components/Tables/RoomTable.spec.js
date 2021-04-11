@@ -7,7 +7,6 @@ import {InertiaApp} from '@inertiajs/inertia-vue'
 import {InertiaForm} from 'laravel-jetstream'
 import RoomTable from '@src/Components/Tables/RoomTable'
 import {InertiaFormMock} from "@test/__mocks__/laravel-jetstream";
-import moment from "moment";
 
 let localVue;
 
@@ -24,13 +23,37 @@ afterEach(() => {
   localVue = null
 })
 
-
-test('should mount without crashing', () => {
-
-  const wrapper = shallowMount(RoomTable, {
-    localVue,
-    propsData: {
-        rooms: [{
+let globPropsData = {
+  rooms: [{
+    id: 1,
+    name: "name",
+    building: "building",
+    number: "1",
+    floor: 1,
+    status: "available",
+    room_type: "Mezzanine",
+    attributes: {
+      "capacity_sitting":5
+    }
+  }],
+  paginator:{
+    data: [{
+      id: 1,
+      name: "name",
+      building: "building",
+      number: "1",
+      floor: 1,
+      status: "available",
+      room_type: "Mezzanine",
+      attributes: {
+        "capacity_sitting":5
+      }
+    }]
+  }
+}
+let globPropsDataMultiRoom = {
+  rooms:[
+          {
             id: 1,
             name: "name",
             building: "building",
@@ -39,13 +62,57 @@ test('should mount without crashing', () => {
             status: "available",
             room_type: "Mezzanine",
             attributes: {
+              "capacity_sitting":10
+            }
+          },
+          {
+            id: 2,
+            name: "zzz",
+            building: "zzz",
+            number: "1",
+            floor: 1,
+            status: "available",
+            room_type: "Mezzanine",
+            attributes: {
               "capacity_sitting":5
             }
-        }]
-    }
+          }
+      ],
+  paginator:{
+    data: [{
+            id: 1,
+            name: "name",
+            building: "building",
+            number: "1",
+            floor: 1,
+            status: "available",
+            room_type: "Mezzanine",
+            attributes: {
+              "capacity_sitting":10
+            }
+          },
+            {
+              id: 2,
+              name: "zzz",
+              building: "zzz",
+              number: "1",
+              floor: 1,
+              status: "available",
+              room_type: "Mezzanine",
+              attributes: {
+                "capacity_sitting":5
+              }
+            }
+          ]
+  }
+}
+
+test('should mount without crashing', () => {
+
+  const wrapper = shallowMount(RoomTable, {
+    localVue,
+    propsData: globPropsData
   })
-
-
 
   expect(wrapper.text()).toBeDefined()
 })
@@ -55,20 +122,7 @@ test('should filter properly', () => {
 
   const wrapper = shallowMount(RoomTable, {
     localVue,
-    propsData: {
-        rooms: [{
-            id: 1,
-            name: "name",
-            building: "building",
-            number: "1",
-            floor: 1,
-            status: "available",
-            room_type: "Mezzanine",
-            attributes: {
-              "capacity_sitting":5
-            }
-        }]
-    }
+    propsData: globPropsData
   })
 
   wrapper.setData({ filter: '' })
@@ -91,20 +145,7 @@ test('should filter properly', () => {
 test('should show advanced filters popup', () => {
     const wrapper = shallowMount(RoomTable, {
         localVue,
-        propsData: {
-            rooms: [{
-                id: 1,
-                name: "name",
-                building: "building",
-                number: "1",
-                floor: 1,
-                status: "available",
-                room_type: "Mezzanine",
-                attributes: {
-                  "capacity_sitting":5
-                }
-            }]
-        }
+        propsData: globPropsData
     });
     wrapper.vm.advancedFilters();
     expect(wrapper.vm.showFilterModal).toBe(true);
@@ -113,20 +154,7 @@ test('should show advanced filters popup', () => {
 test('should compute only active jsonfilter fields to send in post request', () => {
     const wrapper = shallowMount(RoomTable, {
         localVue,
-        propsData: {
-            rooms: [{
-                id: 1,
-                name: "name",
-                building: "building",
-                number: "1",
-                floor: 1,
-                status: "available",
-                room_type: "Mezzanine",
-                attributes: {
-                  "capacity_sitting":5
-                }
-            }]
-        }
+        propsData: globPropsData
     });
 
     wrapper.vm.jsonFilters.food = true;
@@ -136,20 +164,7 @@ test('should compute only active jsonfilter fields to send in post request', () 
 test('should change missingDates when date is added or removed', () => {
   const wrapper = shallowMount(RoomTable, {
     localVue,
-    propsData: {
-      rooms: [{
-        id: 1,
-        name: "name",
-        building: "building",
-        number: "1",
-        floor: 1,
-        status: "available",
-        room_type: "Mezzanine",
-        attributes: {
-          "capacity_sitting":5
-        }
-      }]
-    }
+    propsData: globPropsData
   });
 
   wrapper.vm.addDate();
@@ -167,32 +182,7 @@ test('should change missingDates when date is added or removed', () => {
 test('should sort rooms based on sorting component data', () => {
   const wrapper = shallowMount(RoomTable, {
     localVue,
-    propsData: {
-      rooms: [{
-        id: 1,
-        name: "name",
-        building: "building",
-        number: "1",
-        floor: 1,
-        status: "available",
-        room_type: "Mezzanine",
-        attributes: {
-          "capacity_sitting":10
-        }
-      },
-        {
-          id: 2,
-          name: "zzz",
-          building: "zzz",
-          number: "1",
-          floor: 1,
-          status: "available",
-          room_type: "Mezzanine",
-          attributes: {
-            "capacity_sitting":5
-          }
-        }]
-    }
+    propsData: globPropsDataMultiRoom
   });
 
   wrapper.vm.sort('building');
@@ -200,93 +190,18 @@ test('should sort rooms based on sorting component data', () => {
   expect(wrapper.vm.currentSortDir).toBe('asc');
 
 
-  expect(wrapper.vm.sortedRooms).toStrictEqual([
-    {
-      id: 1,
-      name: "name",
-      building: "building",
-      number: "1",
-      floor: 1,
-      status: "available",
-      room_type: "Mezzanine",
-      attributes: {
-        "capacity_sitting":10
-      }
-    },
-    {
-      id: 2,
-      name: "zzz",
-      building: "zzz",
-      number: "1",
-      floor: 1,
-      status: "available",
-      room_type: "Mezzanine",
-      attributes: {
-        "capacity_sitting":5
-      }
-    }
-  ]);
+  expect(wrapper.vm.sortedRooms).toStrictEqual(globPropsDataMultiRoom.paginator.data);
 
   wrapper.vm.sort('building');
   expect(wrapper.vm.currentSort).toBe('building');
   expect(wrapper.vm.currentSortDir).toBe('desc');
 
-  expect(wrapper.vm.sortedRooms).toStrictEqual([
-    {
-      id: 2,
-      name: "zzz",
-      building: "zzz",
-      number: "1",
-      floor: 1,
-      status: "available",
-      room_type: "Mezzanine",
-      attributes: {
-        "capacity_sitting":5
-      }
-    },
-    {
-      id: 1,
-      name: "name",
-      building: "building",
-      number: "1",
-      floor: 1,
-      status: "available",
-      room_type: "Mezzanine",
-      attributes: {
-        "capacity_sitting":10
-      }
-    }
-  ]);
+  expect(wrapper.vm.sortedRooms).toStrictEqual(globPropsDataMultiRoom.paginator.data.reverse());
 
   wrapper.vm.sort('attributes.capacity_sitting');
   expect(wrapper.vm.currentSort).toBe('attributes.capacity_sitting');
   expect(wrapper.vm.currentSortDir).toBe('desc');
 
-  expect(wrapper.vm.sortedRooms).toStrictEqual([
-    {
-      id: 1,
-      name: "name",
-      building: "building",
-      number: "1",
-      floor: 1,
-      status: "available",
-      room_type: "Mezzanine",
-      attributes: {
-        "capacity_sitting":10
-      }
-    },
-    {
-      id: 2,
-      name: "zzz",
-      building: "zzz",
-      number: "1",
-      floor: 1,
-      status: "available",
-      room_type: "Mezzanine",
-      attributes: {
-        "capacity_sitting":5
-      }
-    }
-  ]);
+  expect(wrapper.vm.sortedRooms).toStrictEqual(globPropsDataMultiRoom.paginator.data);
 
 })

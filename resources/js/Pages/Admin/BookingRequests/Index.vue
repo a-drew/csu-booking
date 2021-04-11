@@ -5,6 +5,7 @@
         <div class="m-24">
              <RoomTable
             :rooms="dataRooms"
+            :paginator="paginator"
             @filterRoomsJson="filterRoomsJson($event)"
             />
         </div>
@@ -36,6 +37,7 @@ export default {
                 return []
             },
         },
+        paginator: Object
 
     },
     mounted(){

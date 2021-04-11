@@ -17,7 +17,8 @@ use Laravel\Fortify\Fortify;
 
 class UserController extends Controller
 {
-    const MAX_255 = 'max:255';
+    private const MAX_255 = 'max:255';
+    private const USER_PAGINATOR_AMOUNT = 10;
 
     use PasswordValidationRules;
 
@@ -30,7 +31,8 @@ class UserController extends Controller
     {
         return inertia('Admin/Users/Index', [
             'users' => User::with('roles')->get(),
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'paginator' => User::with('roles')->paginate(self::USER_PAGINATOR_AMOUNT)
         ]);
     }
 
